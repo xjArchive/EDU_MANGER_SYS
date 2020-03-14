@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edu.manger.dao.PermissionMapper">
+    <sql id="PermissionColumns">
+		a.id AS "id",
+		a.name AS "name",
+		a.perms AS "perms",
+		a.url AS "url",
+		a.create_date AS "createDate",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+    <sql id="permissionJoin">
+
+    </sql>
+
+    <sql id="listOrCountSql">
+        FROM permission a
+        <include refid="permissionJoin"/>
+        <where>
+            <if test="id != null and id != ''">
+                AND a.id = #{id}
+            </if>
+            <if test="name != null and name != ''">
+                AND a.name = #{name}
+            </if>
+            <if test="perms != null and perms != ''">
+                AND a.perms = #{perms}
+            </if>
+            <if test="url != null and url != ''">
+                AND a.url = #{url}
+            </if>
+            <if test="createDate != null">
+                AND a.create_date = #{createDate}
+            </if>
+            <if test="updateDate != null">
+                AND a.update_date = #{updateDate}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                AND a.remarks = #{remarks}
+            </if>
+            <if test="delFlag != null and delFlag != ''">
+                AND a.del_flag = #{delFlag}
+            </if>
+        </where>
+    </sql>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO permission
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="name != null">name,</if>
+            <if test="perms != null">perms,</if>
+            <if test="url != null">url,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="updateDate != null">update_date,</if>
+            <if test="remarks != null">remarks,</if>
+            <if test="delFlag != null">del_flag,</if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+
+            <if test="name != null">#{name},</if>
+            <if test="perms != null">#{perms},</if>
+            <if test="url != null">#{url},</if>
+            <if test="createDate != null">#{createDate},</if>
+            <if test="updateDate != null">#{createDate},</if>
+            <if test="remarks != null">#{remarks},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+
+        </trim>
+    </insert>
+
+    <update id="update">
+        UPDATE permission
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="perms != null">perms = #{perms},</if>
+            <if test="url != null">url = #{url},</if>
+            <if test="createDate != null">create_date = #{createDate},</if>
+            <if test="updateDate != null">update_date = #{updateDate},</if>
+            <if test="remarks != null">remarks = #{remarks},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete">
+		DELETE  FROM permission WHERE id = #{id}
+	</delete>
+    <select id="get" resultType="com.edu.manger.entry.Permission">
+        SELECT
+        <include refid="PermissionColumns"/>
+        FROM permission a
+        <include refid="permissionJoin"/>
+        WHERE a.id = #{id}
+    </select>
+</mapper>

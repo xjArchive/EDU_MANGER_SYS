@@ -1,0 +1,58 @@
+server:
+  port: 8888
+  tomcat:
+    uri-encoding: UTF-8
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://47.96.160.137:3306/edu?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8
+    username: root
+    password: xjArchive1697084799#
+    #数据连接池
+    type: com.alibaba.druid.pool.DruidDataSource
+    #初始化大小
+    druid:
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      #配置获取连接等待超时的时间（毫秒）
+      max-wait: 60000
+      #配置间隔多久进行一次检测，检测需要关闭的空闲连接
+      time-between-eviction-runs-millis: 60000
+      #配置一个连接在连接池最小生存时间
+      min-evictable-idle-time-millis: 60000
+      validation-query: SELECT 1 FROM DUAL
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      #打开PSCache,指定每个连接上PSCache的大小
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      #配置监控统计拦截的filters,去掉后监控界面sql将无法统计，‘wall’用于防火墙
+      filter: stat,wall,log4j2
+      #通过connectionProperties属性打开mergeSql功能，慢sql记录
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+  application:
+    name: edu-manger
+  http:
+    encoding:
+      force: true
+      charset: UTF-8
+      enabled: true
+#视图解析
+  mvc:
+    view:
+      prefix: /WEB-INF/pages/
+      suffix: .jsp
+  #同样bean名，覆盖
+  main:
+    allow-bean-definition-overriding: true
+mybatis:
+  type-aliases-package: com.edu.manger.entry
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+logging:
+  config: classpath:log4j2-spring.xml
+swagger2:
+  enable: true

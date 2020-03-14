@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edu.manger.dao.RolePermissionMapper">
+  <sql id="RolePermissionColumns">
+		a.id AS "id",
+		a.role_id AS "roleId",
+		a.permission_id AS "permissionId",
+	</sql>
+  <sql id="rolePermissionJoin">
+
+  </sql>
+
+  <sql id="listOrCountSql">
+    FROM role_permission a
+    <include refid="rolePermissionJoin"/>
+    <where>
+      <if test="id != null and id != ''">
+        AND a.id = #{id}
+      </if>
+      <if test="roleId != null and roleId != ''">
+        AND a.role_id = #{roleId}
+      </if>
+      <if test="permissionId != null and permissionId != ''">
+        AND a.permission_id = #{permissionId}
+      </if>
+    </where>
+  </sql>
+
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO role_permission
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+
+      <if test="roleId != null">role_id,</if>
+      <if test="permissionId != null">permission_id,</if>
+    </trim>
+    <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+
+      <if test="roleId != null">#{roleId},</if>
+      <if test="permissionId != null">#{permissionId},</if>
+    </trim>
+  </insert>
+
+  <select id="get" resultType="com.edu.manger.entry.RolePermission">
+    SELECT
+    <include refid="RolePermissionColumns"/>
+    FROM role_permission a
+    <include refid="rolePermissionJoin"/>
+    WHERE a.id = #{id}
+  </select>
+</mapper>

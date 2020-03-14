@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edu.manger.dao.UserMapper">
+  <sql id="UserColumns">
+		a.id AS "id",
+		a.username AS "username",
+		a.password AS "password",
+		a.real_name AS "realName",
+		a.birth AS "birth",
+		a.sex AS "sex",
+		a.mobile AS "mobile",
+		a.flag AS "flag",
+		a.degree AS "degree",
+		a.level AS "level",
+		a.college_id AS "collegeId",
+		a.id_card AS "idCard",
+		a.create_date AS "createDate",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+  <sql id="userJoin">
+
+  </sql>
+
+	<sql id="listOrCountSql">
+		FROM tbl_user a
+		<include refid="userJoin"/>
+		<where>
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
+			</if>
+			<if test="username != null and username != ''">
+				AND a.username = #{username}
+			</if>
+			<if test="password != null and password != ''">
+				AND a.password = #{password}
+			</if>
+			<if test="realName != null and realName != ''">
+				AND a.real_name = #{realName}
+			</if>
+			<if test="birth != null and birth != ''">
+				AND a.birth = #{birth}
+			</if>
+			<if test="sex != null and sex != ''">
+				AND a.sex = #{sex}
+			</if>
+
+			<if test="mobile != null and mobile != ''">
+				AND a.mobile = #{mobile}
+			</if>
+			<if test="flag != null and flag != ''">
+				AND a.flag = #{flag}
+			</if>
+			<if test="degree != null and degree != ''">
+				AND a.degree = #{degree}
+			</if>
+			<if test="level != null and level != ''">
+				AND a.level = #{level}
+			</if>
+			<if test="collegeId != null and collegeId != ''">
+				AND a.college_id = #{collegeId}
+			</if>
+			<if test="idCard != null and idCard != ''">
+				AND a.id_card = #{idCard}
+			</if>
+			<if test="createDate != null">
+				AND a.create_date = #{createDate}
+			</if>
+			<if test="updateDate != null">
+				AND a.update_date = #{updateDate}
+			</if>
+			<if test="remarks != null and remarks != ''">
+				AND a.remarks = #{remarks}
+			</if>
+			<if test="delFlag != null and delFlag != ''">
+				AND a.del_flag = #{delFlag}
+			</if>
+		</where>
+	</sql>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO tbl_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+
+			<if test="username != null">username,</if>
+			<if test="password != null">password,</if>
+			<if test="realName != null">real_name,</if>
+			<if test="birth != null">birth,</if>
+			<if test="sex != null">sex,</if>
+			<if test="mobile != null">mobile,</if>
+			<if test="flag != null">flag,</if>
+			<if test="degree != null">degree,</if>
+			<if test="level != null">level,</if>
+			<if test="collegeId != null">college_id,</if>
+			<if test="idCard != null">id_card,</if>
+			<if test="createDate != null">create_date,</if>
+			<if test="updateDate != null">update_date,</if>
+			<if test="remarks != null">remarks,</if>
+			<if test="delFlag != null">del_flag,</if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+
+			<if test="username != null">#{username},</if>
+			<if test="password != null">#{password},</if>
+			<if test="realName != null">#{realName},</if>
+			<if test="birth != null">#{birth},</if>
+			<if test="sex != null">#{sex},</if>
+			<if test="mobile != null">#{mobile},</if>
+			<if test="flag != null">#{flag},</if>
+			<if test="degree != null">#{degree},</if>
+			<if test="level != null">#{level},</if>
+			<if test="collegeId != null">#{collegeId},</if>
+			<if test="idCard != null">#{idCard},</if>
+			<if test="createDate != null">#{createDate},</if>
+			<if test="updateDate != null">#{updateDate},</if>
+			<if test="remarks != null">#{remarks},</if>
+			<if test="delFlag != null">#{delFlag},</if>
+
+		</trim>
+	</insert>
+
+	<update id="update">
+		UPDATE tbl_user
+		<set>
+			<if test="username != null">username = #{username},</if>
+			<if test="password != null">password = #{password},</if>
+			<if test="realName != null">real_name = #{realName},</if>
+			<if test="birth != null">birth = #{birth},</if>
+			<if test="sex != null">sex = #{sex},</if>
+			<if test="mobile != null">mobile = #{mobile},</if>
+			<if test="flag != null">flag = #{flag},</if>
+			<if test="degree != null">degree = #{degree},</if>
+			<if test="level != null">level = #{level},</if>
+			<if test="collegeId != null">college_id = #{collegeId},</if>
+			<if test="idCard != null">id_card = #{idCard},</if>
+			<if test="createDate != null">create_date = #{createDate},</if>
+			<if test="updateDate != null">update_date = #{updateDate},</if>
+			<if test="remarks != null">remarks = #{remarks},</if>
+			<if test="delFlag != null">del_flag = #{delFlag},</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<delete id="delete">
+		DELETE  FROM tbl_user WHERE id = #{id}
+	</delete>
+    <select id="findUserbyName" resultType="com.edu.manger.entry.User">
+		SELECT
+		<include refid="UserColumns"/>
+		FROM tbl_user a
+		<include refid="userJoin"/>
+		WHERE a.username = #{username}
+    </select>
+	<select id="findTeacherList" resultType="com.edu.manger.entry.User">
+		SELECT
+		<include refid="UserColumns"/>
+		<include refid="listOrCountSql"/>
+	</select>
+</mapper>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edu.manger.dao.UserRoleMapper">
+  <sql id="UserRoleColumns">
+		a.id AS "id",
+		a.user_id AS "userId",
+		a.role_id AS "roleId"
+	</sql>
+  <sql id="userRoleJoin">
+
+  </sql>
+
+  <sql id="listOrCountSql">
+    FROM user_role a
+    <include refid="userRoleJoin"/>
+    <where>
+      <if test="id != null and id != ''">
+        AND a.id = #{id}
+      </if>
+      <if test="userId != null and userId != ''">
+        AND a.user_id = #{userId}
+      </if>
+      <if test="roleId != null and roleId != ''">
+        AND a.role_id = #{roleId}
+      </if>
+    </where>
+  </sql>
+
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO user_role
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+
+      <if test="userId != null">user_id,</if>
+      <if test="roleId != null">role_id,</if>
+    </trim>
+    <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+
+      <if test="userId != null">#{userId},</if>
+      <if test="roleId != null">#{roleId},</if>
+    </trim>
+  </insert>
+
+  <select id="get" resultType="com.edu.manger.entry.UserRole">
+    SELECT
+    <include refid="UserRoleColumns"/>
+    FROM user_role a
+    <include refid="userRoleJoin"/>
+    WHERE a.id = #{id}
+  </select>
+
+  <select id="getRoleByUserId" resultType="com.edu.manger.entry.UserRole">
+    SELECT
+    <include refid="UserRoleColumns"/>
+    FROM user_role a
+    <include refid="userRoleJoin"/>
+    WHERE a.user_id = #{userId}
+  </select>
+</mapper>

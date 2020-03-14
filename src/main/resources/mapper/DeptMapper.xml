@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edu.manger.dao.DeptMapper">
+  <sql id="DeptColumns">
+		a.id AS "id",
+		a.dept_code AS "deptCode",
+		a.dept_name AS "deptName",
+		a.create_date AS "createDate",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+  <sql id="deptJoin">
+
+  </sql>
+
+  <sql id="listOrCountSql">
+    FROM dept a
+    <include refid="roleJoin"/>
+    <where>
+      <if test="id != null and id != ''">
+        AND a.id = #{id}
+      </if>
+      <if test="deptCode != null and deptCode != ''">
+        AND a.dept_code = #{deptCode}
+      </if>
+      <if test="deptName != null and deptName != ''">
+        AND a.dept_name = #{deptName}
+      </if>
+      <if test="createDate != null">
+        AND a.create_date = #{createDate}
+      </if>
+      <if test="updateDate != null">
+        AND a.update_date = #{updateDate}
+      </if>
+      <if test="delFlag != null and delFlag != ''">
+        AND a.del_flag = #{delFlag}
+      </if>
+    </where>
+  </sql>
+
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO dept
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+
+      <if test="deptCode != null">dept_code,</if>
+      <if test="deptName != null">dept_name,</if>
+      <if test="createDate != null">create_date,</if>
+      <if test="updateDate != null">update_date,</if>
+      <if test="delFlag != null">del_flag,</if>
+
+    </trim>
+    <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+
+      <if test="deptCode != null">#{dept_code},</if>
+      <if test="deptName != null">#{dept_name},</if>
+      <if test="createDate != null">#{create_date},</if>
+      <if test="updateDate != null">#{update_date},</if>
+      <if test="delFlag != null">#{del_flag},</if>
+
+    </trim>
+  </insert>
+  <select id="get" resultType="User">
+    SELECT
+    <include refid="DeptColumns"/>
+    FROM dept a
+    <include refid="deptJoin"/>
+    WHERE a.id = #{id}
+  </select>
+</mapper>
