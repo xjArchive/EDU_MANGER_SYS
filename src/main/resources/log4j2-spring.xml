@@ -2,6 +2,7 @@
 <!-- Configuration后面的status，这个用于设置log4j2自身内部的信息输出，可以不设置，当设置成trace时，
  你会看到log4j2内部各种详细输出。可以设置成OFF(关闭)或Error(只输出错误信息)
 -->
+<!--日志处理，暂时对日志只是进行简单设置，便于开发排除问题后期部署在服务器时再修改有关配置-->
 <configuration status="OFF" monitorInterval="30">
     <properties>
         <Property name="PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} %5level --- [%thread] %logger{36} : %msg%n</Property>
