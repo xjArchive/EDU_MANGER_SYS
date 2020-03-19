@@ -1,9 +1,14 @@
 package com.edu.manger.entry;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.io.Serializable;
 import java.util.Date;
 
-public class User implements Serializable {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class User{
+
     private Integer id;
 
     private String username;
@@ -70,6 +75,7 @@ public class User implements Serializable {
         this.realName = realName == null ? null : realName.trim();
     }
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     public Date getBirth() {
         return birth;
     }
@@ -126,6 +132,7 @@ public class User implements Serializable {
         this.idCard = idCard == null ? null : idCard.trim();
     }
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getCreateDate() {
         return createDate;
     }
@@ -134,6 +141,7 @@ public class User implements Serializable {
         this.createDate = createDate;
     }
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getUpdateDate() {
         return updateDate;
     }

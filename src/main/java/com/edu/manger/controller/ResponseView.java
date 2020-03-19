@@ -32,4 +32,10 @@ public class ResponseView {
         return "admin/admin_showTeacher";
     }
 
+    @RequestMapping(value = {"/studentListView",""},method = RequestMethod.GET)
+    @ApiOperation("点击学生管理，返回页面")
+    public String getStudentList( HttpServletRequest request, HttpServletResponse response, Model model){
+        return "admin/admin_showStudent";
+    }
+
 }

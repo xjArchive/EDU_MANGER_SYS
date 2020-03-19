@@ -21,7 +21,13 @@ public interface UserService {
 
     public int delete(Integer id);
 
-    public int update(Integer id);
+    public RestResponse update(User user);
 
     public RestResponse findTeacherList(User user);
+
+    public List<User> findPage(User user);
+
+    public RestResponse saveTeacher(User user);
+
+    public RestResponse saveStudent(User user);
 }

@@ -14,7 +14,7 @@ public interface UserMapper {
 
     public int delete(Integer id);
 
-    public int update(Integer id);
+    public int update(User user);
 
     public List<User>  findTeacherList(User user);
 }
