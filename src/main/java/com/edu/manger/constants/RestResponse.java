@@ -12,6 +12,7 @@ public class RestResponse <T> {
     private int code;
     private String msg;
     private T data;
+    private Long count;
 
 
     /**
@@ -26,8 +27,20 @@ public class RestResponse <T> {
         return new RestResponse<>();
     }
 
-    public static <T> RestResponse<T> success(T data) {
-        RestResponse restResponse = new RestResponse(RestCode.OK.code,RestCode.OK.msg,data);
+    public static <T> RestResponse<T> success(RestCode restCode) {
+        RestResponse<T> restResponse = new RestResponse<>(restCode.code, restCode.msg);
+        return restResponse;
+    }
+
+
+    public static <T> RestResponse<T> success(T data,Long count) {
+        RestResponse restResponse = new RestResponse(RestCode.OK.code,RestCode.OK.msg,data,count);
+        restResponse.setData(data);
+        return restResponse;
+    }
+
+    public static <T> RestResponse<T> noData(T data) {
+        RestResponse restResponse = new RestResponse(RestCode.DATA_NOT_EXISTS.code,RestCode.DATA_NOT_EXISTS.msg,data,Long.parseLong(0+""));
         restResponse.setData(data);
         return restResponse;
     }
@@ -42,10 +55,11 @@ public class RestResponse <T> {
         this(RestCode.OK.code, RestCode.OK.msg);
     }
 
-    public RestResponse(int code, String msg, T data) {
+    public RestResponse(int code, String msg, T data,Long count) {
         this.code = code;
         this.msg = msg;
         this.data = data;
+        this.count = count;
     }
 
     public RestResponse(int code, String msg) {
@@ -80,5 +94,13 @@ public class RestResponse <T> {
 
     public void setData(T data) {
         this.data = data;
+    }
+
+    public Long getCount() {
+        return count;
+    }
+
+    public void setCount(Long count) {
+        this.count = count;
     }
 }
