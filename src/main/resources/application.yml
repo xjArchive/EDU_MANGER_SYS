@@ -47,6 +47,18 @@ spring:
   #同样bean名，覆盖
   main:
     allow-bean-definition-overriding: true
+    #redis
+  redis:
+    host: 47.96.160.137
+    port: 6379
+    password: 1697084799
+    timeout: 1000
+  rabbitmq:
+    host: 47.96.160.137
+    username: admin
+    password: 123456
+
+
 mybatis:
   type-aliases-package: com.edu.manger.entry
   mapper-locations: classpath:mapper/*.xml
@@ -56,3 +68,15 @@ logging:
   config: classpath:log4j2-spring.xml
 swagger2:
   enable: true
+
+#分页插件
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSqls
+#阿里云短信配置相关
+aliyun:
+  sms:
+    AccessKeyId: LTAI4Fpk5nxHQogoexJv5TFw
+    AccessKeySecret: g1BS56PciNjhEEltl4FH4pHf2GxSIC

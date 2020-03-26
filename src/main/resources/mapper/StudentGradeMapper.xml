@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edu.manger.dao.StudentGradeMapper">
+  <sql id="StudentGradeColumns">
+		a.id AS "id",
+		a.stu_no AS "stuNo",
+		a.course_code AS "courseCode",
+		a.marks AS "marks",
+		a.college_id AS "collegeId",
+		a.flag AS "flag",
+		b.username AS "username",
+		b.real_name AS "realName",
+		c.course_name AS "courseName",
+        d.dept_name AS "collegeName"
+	</sql>
+  <sql id="StudentGradeJoin">
+      LEFT JOIN tbl_user b ON a.stu_no = b.username
+      LEFT JOIN course c ON a.course_code = c.course_code
+      LEFT JOIN dept d ON a.college_id = d.id
+  </sql>
+
+  <sql id="listOrCountSql">
+    FROM select_grade a
+    <include refid="StudentGradeJoin"/>
+    <where>
+      <if test="id != null and id != ''">
+        AND a.id = #{id}
+      </if>
+      <if test="stuNo != null and stuNo != ''">
+        AND a.stu_no = #{stuNo}
+      </if>
+      <if test="courseCode != null and courseCode != ''">
+        AND a.course_code = #{courseCode}
+      </if>
+      <if test="collegeId != null and collegeId != ''">
+        AND a.college_id = #{collegeId}
+      </if>
+      <if test="marks != null">
+        AND a.marks = #{marks}
+      </if>
+      <if test="flag != null">
+        AND a.flag = #{flag}
+      </if>
+    </where>
+  </sql>
+
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO select_grade
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+
+      <if test="stuNo != null">stu_no,</if>
+      <if test="courseCode != null">course_code,</if>
+      <if test="collegeId != null">college_id,</if>
+      <if test="marks != null">marks,</if>
+      <if test="flag != null">flag,</if>
+
+    </trim>
+    <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+
+      <if test="stuNo != null">#{stuNo},</if>
+      <if test="courseCode != null">#{courseCode},</if>
+      <if test="collegeId != null">#{collegeId},</if>
+      <if test="marks != null">#{marks},</if>
+      <if test="flag != null">#{flag},</if>
+
+    </trim>
+  </insert>
+  <select id="get" resultType="com.edu.manger.entry.StudentGrade">
+    SELECT
+    <include refid="StudentGradeColumns"/>
+    FROM select_grade a
+    <include refid="StudentGradeJoin"/>
+    WHERE a.id = #{id}
+  </select>
+
+  <select id="findStudentGradeList" resultType="com.edu.manger.entry.StudentGrade">
+    SELECT
+    <include refid="StudentGradeColumns"/>
+    <include refid="listOrCountSql"/>
+  </select>
+
+  <select id="findList" resultType="com.edu.manger.entry.StudentGrade">
+    SELECT
+    <include refid="StudentGradeColumns"/>
+    <include refid="listOrCountSql"/>
+  </select>
+
+  <delete id="delete">
+    DELETE  FROM select_grade WHERE id = #{id}
+  </delete>
+
+  <delete id="deleteAllByStu">
+    DELETE  FROM select_grade WHERE stu_no = #{stuNo}
+  </delete>
+
+  <update id="update">
+    update  select_grade
+      <set>
+        <if test="stuNo != null">
+          stu_no = #{stuNo},
+        </if>
+        <if test="courseCode != null">
+          course_code = #{courseCode},
+        </if>
+        <if test="collegeId != null">
+          college_id = #{collegeId},
+        </if>
+        <if test="marks != null">
+          marks = #{marks},
+        </if>
+        <if test="flag != null">
+          flag = #{flag},
+        </if>
+      </set>
+      WHERE  id = #{id}
+  </update>
+
+</mapper>

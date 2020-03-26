@@ -13,6 +13,7 @@
 		a.degree AS "degree",
 		a.level AS "level",
 		a.college_id AS "collegeId",
+		a.class_id AS "classId",
 		a.id_card AS "idCard",
 		a.create_date AS "createDate",
 		a.update_date AS "updateDate",
@@ -20,7 +21,8 @@
 		a.del_flag AS "delFlag"
 	</sql>
   <sql id="userJoin">
-
+		LEFT JOIN dept b ON b.id = a.college_id
+		LEFT JOIN class c ON c.id = a.class_id
   </sql>
 
 	<sql id="listOrCountSql">
@@ -61,6 +63,9 @@
 			<if test="collegeId != null and collegeId != ''">
 				AND a.college_id = #{collegeId}
 			</if>
+			<if test="classId != null and classId != ''">
+				AND a.class_id = #{classId}
+			</if>
 			<if test="idCard != null and idCard != ''">
 				AND a.id_card = #{idCard}
 			</if>
@@ -93,6 +98,7 @@
 			<if test="degree != null">degree,</if>
 			<if test="level != null">level,</if>
 			<if test="collegeId != null">college_id,</if>
+			<if test="classId != null">class_id,</if>
 			<if test="idCard != null">id_card,</if>
 			<if test="createDate != null">create_date,</if>
 			<if test="updateDate != null">update_date,</if>
@@ -111,6 +117,7 @@
 			<if test="degree != null">#{degree},</if>
 			<if test="level != null">#{level},</if>
 			<if test="collegeId != null">#{collegeId},</if>
+			<if test="classId != null">#{classId},</if>
 			<if test="idCard != null">#{idCard},</if>
 			<if test="createDate != null">#{createDate},</if>
 			<if test="updateDate != null">#{updateDate},</if>
@@ -133,6 +140,7 @@
 			<if test="degree != null">degree = #{degree},</if>
 			<if test="level != null">level = #{level},</if>
 			<if test="collegeId != null">college_id = #{collegeId},</if>
+			<if test="classId != null">class_id = #{classId},</if>
 			<if test="idCard != null">id_card = #{idCard},</if>
 			<if test="createDate != null">create_date = #{createDate},</if>
 			<if test="updateDate != null">update_date = #{updateDate},</if>
@@ -156,5 +164,12 @@
 		SELECT
 		<include refid="UserColumns"/>
 		<include refid="listOrCountSql"/>
+	</select>
+
+	<select id="get" resultType="com.edu.manger.entry.User">
+		SELECT
+		<include refid="UserColumns"/>
+		FROM tbl_user a
+		WHERE id = #{id}
 	</select>
 </mapper>

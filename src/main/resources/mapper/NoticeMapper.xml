@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edu.manger.dao.NoticeMapper">
+  <sql id="NoticeColumns">
+		a.id AS "id",
+		a.title AS "title",
+		a.content AS "content",
+		a.create_date AS "createDate",
+		a.update_date AS "updateDate"
+	</sql>
+  <sql id="NoticeJoin">
+
+  </sql>
+
+  <sql id="listOrCountSql">
+    FROM notice a
+    <include refid="NoticeJoin"/>
+    <where>
+      <if test="id != null and id != ''">
+        AND a.id = #{id}
+      </if>
+      <if test="title != null and title != ''">
+        AND a.title = #{title}
+      </if>
+      <if test="content != null and content != ''">
+        AND a.content LIKE CONCAT('%',#{content},'%')
+      </if>
+      <if test="createDate != null">
+        AND a.create_date = #{createDate}
+      </if>
+      <if test="updateDate != null">
+        AND a.update_date = #{updateDate}
+      </if>
+    </where>
+  </sql>
+
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO notice
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+
+      <if test="title != null">title,</if>
+      <if test="content != null">content,</if>
+      <if test="createDate != null">create_date,</if>
+      <if test="updateDate != null">update_date,</if>
+
+    </trim>
+    <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+
+      <if test="title != null">#{title},</if>
+      <if test="content != null">#{content},</if>
+      <if test="createDate != null">#{createDate},</if>
+      <if test="updateDate != null">#{updateDate},</if>
+
+    </trim>
+  </insert>
+  <select id="get" resultType="com.edu.manger.entry.Notice">
+    SELECT
+    <include refid="NoticeColumns"/>
+    FROM notice a
+    <include refid="NoticeJoin"/>
+    WHERE a.id = #{id}
+  </select>
+
+  <select id="findNoticeList" resultType="com.edu.manger.entry.Notice">
+    SELECT
+    <include refid="NoticeColumns"/>
+    <include refid="listOrCountSql"/>
+  </select>
+
+  <select id="findList" resultType="com.edu.manger.entry.Notice">
+    SELECT
+    <include refid="NoticeColumns"/>
+    <include refid="listOrCountSql"/>
+  </select>
+
+  <delete id="delete">
+    DELETE  FROM notice WHERE id = #{id}
+  </delete>
+
+  <update id="update">
+    update  notice
+      <set>
+        <if test="title != null">
+          title = #{title},
+        </if>
+        <if test="content != null">
+          content = #{content},
+        </if>
+      </set>
+      WHERE  id = #{id}
+  </update>
+
+</mapper>

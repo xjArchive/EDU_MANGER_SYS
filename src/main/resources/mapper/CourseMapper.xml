@@ -4,6 +4,7 @@
   <sql id="CourseColumns">
 		a.id AS "id",
 		a.course_code AS "courseCode",
+		a.course_type AS "courseType",
 		a.course_name AS "courseName",
 		a.start_time  AS "startTime",
 		a.address AS "address",
@@ -11,10 +12,12 @@
 		a.course_long AS "courseLong",
 		a.create_date AS "createDate",
 		a.update_date AS "updateDate",
+		b.name AS "name",
 		a.del_flag AS "delFlag"
+
 	</sql>
   <sql id="courseJoin">
-
+    LEFT JOIN course_type b ON a.course_type = b.id
   </sql>
 
   <sql id="listOrCountSql">
@@ -26,6 +29,9 @@
       </if>
       <if test="courseCode != null and courseCode != ''">
         AND a.course_code = #{courseCode}
+      </if>
+      <if test="courseType != null and courseType != ''">
+        AND a.course_type = #{courseType}
       </if>
       <if test="courseName != null and courseName != ''">
         AND a.course_name = #{courseName}
@@ -59,6 +65,7 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
 
       <if test="courseCode != null">course_code,</if>
+      <if test="courseType != null">course_type,</if>
       <if test="courseName != null">course_name,</if>
       <if test="startTime != null">start_time,</if>
       <if test="address != null">address,</if>
@@ -72,6 +79,7 @@
     <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
 
       <if test="courseCode != null">#{courseCode},</if>
+      <if test="courseType != null">#{courseType},</if>
       <if test="courseName != null">#{courseName},</if>
       <if test="startTime != null">#{startTime},</if>
       <if test="address != null">#{address},</if>
@@ -83,4 +91,59 @@
 
     </trim>
   </insert>
+
+  <select id="findCourseList" resultType="com.edu.manger.entry.Course">
+    SELECT
+    <include refid="CourseColumns"/>
+    <include refid="listOrCountSql"/>
+  </select>
+
+  <select id="findList" resultType="com.edu.manger.entry.Course">
+    SELECT
+    <include refid="CourseColumns"/>
+    <include refid="listOrCountSql"/>
+  </select>
+
+  <select id="getByCodeOrId" resultType="com.edu.manger.entry.Course">
+    SELECT
+    <include refid="CourseColumns"/>
+    <include refid="listOrCountSql"/>
+  </select>
+
+
+  <update id="update">
+    update  course
+    <set>
+      <if test="courseName != null and courseName !=''">
+        course_name = #{courseName},
+      </if>
+      <if test="courseCode != null and courseCode !=''">
+        course_code = #{courseCode},
+      </if>
+      <if test="courseType != null and courseType !=''">
+        course_type = #{courseType},
+      </if>
+      <if test="startTime != null and startTime !=''">
+        start_time = #{startTime},
+      </if>
+      <if test="address != null and address !=''">
+        address = #{address},
+      </if>
+      <if test="score!= null">
+        score = #{score},
+      </if>
+      <if test="courseLong!= null">
+        course_long = #{courseLong},
+      </if>
+      <if test="updateDate!= null">
+        update_date = #{updateDate},
+      </if>
+    </set>
+    WHERE  id = #{id}
+  </update>
+
+  <delete id="delete">
+    DELETE  FROM course WHERE id = #{id}
+  </delete>
+
 </mapper>

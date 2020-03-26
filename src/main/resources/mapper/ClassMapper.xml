@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edu.manger.dao.ClassMapper">
+    <sql id="ClassColumns">
+		a.id AS "id",
+		a.class_no AS "classNo",
+		a.class_name AS "className",
+		a.student_num AS "studentNum",
+		a.college_id AS "collegeId",
+		a.create_date AS "createDate",
+		a.update_date AS "updateDate",
+		b.dept_name AS "deptName"
+	</sql>
+    <sql id="classJoin">
+      LEFT JOIN dept b ON a.college_id = b.id
+    </sql>
+
+    <sql id="listOrCountSql">
+        FROM class a
+        <include refid="classJoin"/>
+        <where>
+            <if test="id != null and id != ''">
+                AND a.id = #{id}
+            </if>
+            <if test="classNo != null and classNo !=''">
+                AND a.class_no = #{classNo}
+            </if>
+            <if test="className != null and className != ''">
+                AND a.class_name = #{className}
+            </if>
+            <if test="studentNum != null">
+                AND a.student_num = #{studentNum}
+            </if>
+            <if test="collegeId != null">
+                AND a.college_id = #{collegeId}
+            </if>
+            <if test="createDate != null">
+                AND a.create_date = #{createDate}
+            </if>
+            <if test="updateDate != null">
+                AND a.update_date = #{updateDate}
+            </if>
+
+        </where>
+    </sql>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO class
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="classNo != null and classNo !=''">class_no,</if>
+            <if test="className != null">class_name,</if>
+            <if test="studentNum != null">student_num,</if>
+            <if test="collegeId != null">college_id,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="updateDate != null">update_date,</if>
+
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+
+            <if test="classNo != null and classNo !=''">#{classNo},</if>
+            <if test="className != null">#{className},</if>
+            <if test="studentNum != null">#{studentNum},</if>
+            <if test="collegeId != null">#{collegeId},</if>
+            <if test="createDate != null">#{createDate},</if>
+            <if test="updateDate != null">#{updateDate},</if>
+
+        </trim>
+    </insert>
+    <select id="get" resultType="com.edu.manger.entry.Classs">
+        SELECT
+        <include refid="ClassColumns"/>
+        FROM class a
+        <include refid="classJoin"/>
+        WHERE a.id = #{id} OR a.class_name = #{className}
+    </select>
+
+    <select id="findClassList" resultType="com.edu.manger.entry.Classs">
+        SELECT
+        <include refid="ClassColumns"/>
+        <include refid="listOrCountSql"/>
+    </select>
+
+    <delete id="delete">
+    DELETE  FROM class WHERE id = #{id}
+  </delete>
+
+    <select id="judgeClassExists" resultType="com.edu.manger.entry.Classs">
+        SELECT
+        <include refid="ClassColumns"/>
+        FROM class a
+        <include refid="classJoin"/>
+        WHERE a.class_name = #{className}
+    </select>
+
+    <update id="update">
+        update  class
+        <set>
+            <if test="classNo != null and classNo !=''">
+                class_no = #{classNo},
+            </if>
+            <if test="className != null">
+                class_name = #{className},
+            </if>
+            <if test="studentNum != null">
+                student_num = #{studentNum},
+            </if>
+            <if test="collegeId != null">
+                college_id = #{collegeId},
+            </if>
+            <if test="updateDate != null">
+                update_date = #{updateDate},
+            </if>
+        </set>
+        WHERE  id = #{id}
+    </update>
+
+</mapper>

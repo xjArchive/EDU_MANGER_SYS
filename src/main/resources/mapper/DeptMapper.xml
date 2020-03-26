@@ -15,7 +15,7 @@
 
   <sql id="listOrCountSql">
     FROM dept a
-    <include refid="roleJoin"/>
+    <include refid="deptJoin"/>
     <where>
       <if test="id != null and id != ''">
         AND a.id = #{id}
@@ -51,19 +51,50 @@
     </trim>
     <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
 
-      <if test="deptCode != null">#{dept_code},</if>
-      <if test="deptName != null">#{dept_name},</if>
-      <if test="createDate != null">#{create_date},</if>
-      <if test="updateDate != null">#{update_date},</if>
-      <if test="delFlag != null">#{del_flag},</if>
+      <if test="deptCode != null">#{deptCode},</if>
+      <if test="deptName != null">#{deptName},</if>
+      <if test="createDate != null">#{createDate},</if>
+      <if test="updateDate != null">#{updateDate},</if>
+      <if test="delFlag != null">#{delFlag},</if>
 
     </trim>
   </insert>
-  <select id="get" resultType="User">
+  <select id="get" resultType="com.edu.manger.entry.Dept">
     SELECT
     <include refid="DeptColumns"/>
     FROM dept a
     <include refid="deptJoin"/>
     WHERE a.id = #{id}
   </select>
+
+  <select id="findCollegeList" resultType="com.edu.manger.entry.Dept">
+    SELECT
+    <include refid="DeptColumns"/>
+    <include refid="listOrCountSql"/>
+  </select>
+
+  <delete id="delete">
+    DELETE  FROM dept WHERE id = #{id}
+  </delete>
+
+  <select id="judgeCollegeExists" resultType="com.edu.manger.entry.Dept">
+    SELECT
+    <include refid="DeptColumns"/>
+    FROM dept a
+    WHERE a.dept_name = #{deptName} OR a.dept_code = #{deptCode}
+  </select>
+
+  <update id="update">
+    update  dept
+      <set>
+        <if test="deptCode != null">
+          dept_code = #{deptCode},
+        </if>
+        <if test="deptName != null">
+          dept_name = #{deptName},
+        </if>
+      </set>
+      WHERE  id = #{id}
+  </update>
+
 </mapper>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edu.manger.dao.CourseArrangeMapper">
+  <sql id="CourseArrangeColumns">
+		a.id AS "id",
+		a.course_code AS "courseCode",
+		a.course_name AS "courseName",
+		a.college_name  AS "collegeName",
+		a.course_address AS "courseAddress",
+		a.teacher_no AS "teacherNo",
+		a.class_name AS "className"
+	</sql>
+  <sql id="courseArrangeJoin">
+    LEFT JOIN course b ON a.course_code = b.course_code
+    LEFT JOIN tbl_user c ON c.username = a.teacher_no
+    LEFT JOIN dept d ON a.college_name = d.dept_name
+    LEFT JOIN class e ON a.class_name = e.class_name
+  </sql>
+
+  <sql id="listOrCountSql">
+    FROM course_arrange a
+    <include refid="courseArrangeJoin"/>
+    <where>
+      <if test="id != null">
+        AND a.id = #{id}
+      </if>
+      <if test="courseCode != null and courseCode != ''">
+        AND a.course_code = #{courseCode}
+      </if>
+      <if test="courseName != null and courseName != ''">
+        AND a.course_name = #{courseName}
+      </if>
+      <if test="courseAddress != null and courseAddress != ''">
+        AND a.course_address = #{courseAddress}
+      </if>
+      <if test="collegeName != null and collegeName != ''">
+        AND a.college_name = #{collegeName}
+      </if>
+      <if test="teacherNo != null and teacherNo != ''">
+        AND a.teacher_no = #{teacherNo}
+      </if>
+      <if test="className != null and className != ''">
+        AND a.class_name = #{className}
+      </if>
+    </where>
+  </sql>
+
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO course_arrange
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+
+      <if test="courseCode != null">course_code,</if>
+      <if test="courseName != null">course_name,</if>
+      <if test="courseAddress != null">course_address,</if>
+      <if test="collegeName != null">college_name,</if>
+      <if test="teacherNo != null">teacher_no,</if>
+      <if test="className != null">class_name,</if>
+    </trim>
+    <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+
+      <if test="courseCode != null">#{courseCode},</if>
+      <if test="courseName != null">#{courseName},</if>
+      <if test="courseAddress != null">#{courseAddress},</if>
+      <if test="collegeName != null">#{collegeName},</if>
+      <if test="teacherNo != null">#{teacherNo},</if>
+      <if test="className != null">#{className},</if>
+    </trim>
+  </insert>
+
+  <select id="findCourseArrangeList" resultType="com.edu.manger.entry.CourseArrange">
+    SELECT
+    <include refid="CourseArrangeColumns"/>
+    <include refid="listOrCountSql"/>
+  </select>
+
+  <select id="findList" resultType="com.edu.manger.entry.CourseArrange">
+    SELECT
+    <include refid="CourseArrangeColumns"/>
+    <include refid="listOrCountSql"/>
+  </select>
+
+  <update id="update">
+    update  course_arrange
+    <set>
+      <if test="courseName != null and courseName !=''">
+        course_name = #{courseName},
+      </if>
+      <if test="courseCode != null and courseCode !=''">
+        course_code = #{courseCode},
+      </if>
+      <if test="courseAddress != null and courseAddress !=''">
+        course_address = #{courseAddress},
+      </if>
+      <if test="collegeName != null and collegeName !=''">
+        college_name = #{collegeName},
+      </if>
+      <if test="teacherNo != null and teacherNo !=''">
+        teacher_no = #{teacherNo},
+      </if>
+      <if test="className != null and className !=''">
+        class_name = #{className},
+      </if>
+    </set>
+    WHERE  id = #{id}
+  </update>
+
+  <delete id="delete">
+    DELETE  FROM course_arrange WHERE id = #{id}
+  </delete>
+
+</mapper>
