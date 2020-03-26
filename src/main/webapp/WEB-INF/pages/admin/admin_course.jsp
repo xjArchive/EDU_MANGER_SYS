@@ -17,6 +17,9 @@
             top:5px;
             left:15px;
         }
+        .addForm{
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -26,31 +29,37 @@
             <div class="layui-card">
                 <div class="layui-card-body">
                     <%--layui搜索--%>
-                 <div class="test-table-reload-btn" style="margin-bottom: 10px;">
-                     <div class="layui-inline">
-                        <label class="layui-form-label">用户名</label>
+                    <div class="test-table-reload-btn" style="margin-bottom: 10px;">
                         <div class="layui-inline">
-                            <input class="layui-input" name="username" id="userNameReload" autocomplete="off">
+                            <label class="layui-form-label">课程名称</label>
+                            <div class="layui-inline">
+                                <input class="layui-input" name="courseName" id="courseName" autocomplete="off" >
+                            </div>
                         </div>
-                     </div>
-                     <div class="layui-inline">
-                        <label class="layui-form-label">身份证</label>
                         <div class="layui-inline">
-                            <input class="layui-input" name="idCard" id="idCard" autocomplete="off">
+                            <label class="layui-form-label">课程代码</label>
+                            <div class="layui-inline">
+                                <input class="layui-input" name="courseCode" id="courseCode" autocomplete="off">
+                            </div>
                         </div>
-                     </div>
-                     <div class="layui-inline">
-                        <button class="layui-btn search" data-type="reload">搜索</button>
-                     </div>
-                     <div class="layui-inline">
-                        <div class="layui-inline layui-col-md-offset8">
-                            <button    lay-submit lay-filter="addTeacher" class="layui-btn" id ="addBtn"><i class="layui-icon">&#xe608;</i>添加</button>
+                        <div class="layui-inline">
+                            <button class="layui-btn search" data-type="reload">搜索</button>
                         </div>
-                     </div>
+                        <div class="layui-inline">
+                            <div class="layui-inline layui-col-md-offset8">
+                                <button    lay-submit lay-filter="addCourse" class="layui-btn" id ="addBtn"><i class="layui-icon">&#xe608;</i>添加课程</button>
+                            </div>
+                        </div>
+
+                        <div class="layui-inline">
+                            <div class="layui-inline layui-col-md-offset8">
+                                <button    lay-submit lay-filter="addType" class="layui-btn" id ="addTypeBtn"><i class="layui-icon">&#xe608;</i>添加课程类型</button>
+                            </div>
+                        </div>
 
                     </div>
 
-                    <table class="layui-hide" id="teacherTable" lay-filter="teacherTable"></table>
+                    <table class="layui-hide" id="courseTable" lay-filter="courseTable"></table>
                     <script type="text/html" id="bar">
                         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
                         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
@@ -61,81 +70,79 @@
     </div>
 </div>
 
+<script type="text/html" id="addType" >
+    <div class="layui-col-md12">
+        <form class="layui-form" id="AddCourseType" method="post" action="">
+
+            <div class="layui-form-item">
+                <label class="layui-form-label layui-required">课程类型名称：</label>
+                <div class="layui-input-block">
+                    <input type="text" id="name" name="name" class="layui-input" lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-form-item" style="display: none;">
+                <div class="layui-input-block">
+                    <button id="addTpBtn" type="button" class="layui-btn layui-btn-normal" lay-submit lay-filter="addTpBtn">提交</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</script>
 
 
 <script type="text/html" id="test" >
-    <div class="layui-col-md12">
-        <form class="layui-form" id="AddTeacher" method="post" action="">
+    <div class="layui-col-md12 addForm">
+        <form class="layui-form" id="AddCourse" method="post" action="">
 
             <input type="hidden" id = "id" name="id" class="layui-input">
 
             <div class="layui-form-item">
-                <label class="layui-form-label layui-required">工号：</label>
+                <label class="layui-form-label layui-required">课程名称：</label>
                 <div class="layui-input-block">
-                    <input type="text" id = "username" name="username" class="layui-input" lay-verify="required|number">
+                    <input type="text" id = "courseno" name="courseName" class="layui-input" lay-verify="required">
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label layui-required">姓名：</label>
+                <label class="layui-form-label layui-required">课程代码：</label>
                 <div class="layui-input-block">
-                    <input type="text" id="realName" name="realName" class="layui-input" lay-verify="required">
+                    <input type="text" id="courseco" name="courseCode" class="layui-input" lay-verify="required" placeholder="课程流水号（你只需要输入数字，后台默认会在其前面加上NCHK1n(n代表课程类型，必修就是1)）">
                 </div>
             </div>
+
             <div class="layui-form-item">
-                <label class="layui-form-label">性别：</label>
+                <label class="layui-form-label layui-required">课程类型：</label>
                 <div class="layui-input-block">
-                    <input type="radio"  name="sex" value="1" title="男" checked>
-                    <input type="radio" name="sex" value="0" title="女">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">出生年月：</label>
-                <div class="layui-input-block">
-                    <input  id="birth" name="birth" autocomplete="off"
-                            class="layui-input" placeholder="yyyy-MM-dd" lay-key="2">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label layui-required">手机号码：</label>
-                <div class="layui-input-block">
-                    <input type="text" id="mobile" name="mobile" class="layui-input" lay-verify="required|phone">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label layui-required">学历：</label>
-                <div class="layui-input-block">
-                    <select name="degree" id="degree">
-                        <option value="">请选择学历</option>
-                        <option value="本科">本科</option>
-                        <option value="专科">专科</option>
-                        <option value="高中及初中以下">高中及初中以下</option>
-                        <option value="高中及初中以下">研究生</option>
+                    <select name="courseType" id="coursetp" lay-filter="mySelect" class="mySelect" lay-verify="required">
+                        <option value="" >请选择课程类型</option>
                     </select>
                 </div>
             </div>
+
             <div class="layui-form-item">
-                <label class="layui-form-label layui-required">职称：</label>
+                <label class="layui-form-label layui-required">上课时间：</label>
                 <div class="layui-input-block">
-                    <select name="level" id="level">
-                        <option value="">请选择职称</option>
-                        <option value="初级">初级</option>
-                        <option value="中级">中级</option>
-                        <option value="高级">高级</option>
-                        <option value="特级">特级</option>
-                    </select>
+                    <input type="text" id="startTime" name="startTime" class="layui-input" lay-verify="required" placeholder="第x周到第x周，周一">
                 </div>
             </div>
+
             <div class="layui-form-item">
-                <label class="layui-form-label layui-required">院系：</label>
+                <label class="layui-form-label layui-required">上课地点：</label>
                 <div class="layui-input-block">
-                    <select name="collegeId" id="collegeId">
-                    </select>
+                    <input type="text" id="address" name="address" class="layui-input" lay-verify="required" placeholder="教室号，如科301">
                 </div>
             </div>
+
             <div class="layui-form-item">
-                <label class="layui-form-label layui-required">身份证：</label>
+                <label class="layui-form-label layui-required">课程学分：</label>
                 <div class="layui-input-block">
-                    <input type="text" id="formIdcard" name="idCard" class="layui-input" lay-verify = "required|identity">
+                    <input type="text" id="score" name="score" class="layui-input" lay-verify="required|number">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label layui-required">课时：</label>
+                <div class="layui-input-block">
+                    <input type="text" id="courseLong" name="courseLong" class="layui-input" lay-verify="required" placeholder="x周，如18周">
                 </div>
             </div>
 
@@ -159,35 +166,30 @@
         var element = layui.element;
         var form = layui.form;
         var tableObj = table.render({
-            elem: '#teacherTable'
-            ,url: '/admin/getAllTeacher'
+            elem: '#courseTable'
+            ,url: '/admin/getAllCourse'
             ,toolbar: true
             , parseData: function (res) { //解析服务器端返回的数据
                 console.log(res)
             }
-            ,title: '用户数据表'
+            ,title: '课程数据表'
             ,page: true
-            ,limits: [10,15,20,30,40,50]
             ,response: { //自定义数据状态的字段名称
                 statusName: 'code',
                 statusCode: 200
             }
             ,cols: [[
                 {type: 'checkbox', fixed: 'left'}
-                ,{field:'id', title:'ID', fixed: 'left',width:80, sort: true}
-                ,{field:'username', title:'用户名', width:120}
-                ,{field:'realName', title:'真实姓名',width:120}
-                ,{field:'birth', title:'出生年月', width:150, sort: true}
-                ,{field:'mobile', title:'电话', width:120}
-                ,{field:'degree', title:'学历'}
-                ,{field:'idCard', title:'身份证', width:150, sort: true}
-                ,{field:'sex', title:'性别',unresize: true,templet : function(d) {
-                        if (d.sex == 0)
-                            return "<div class='woman'>女</div>";
-                        else
-                            return "<div class='man'>男</div>";
-                    }}
-                ,{field:'createDate', title:'创建日期',unresize: true, width:120, sort: true}
+                ,{field:'id', title:'ID', fixed: 'left', sort: true}
+                ,{field:'courseName', title:'课程名称',}
+                ,{field:'courseCode', title:'课程代码'}
+                ,{field:'name', title:'课程类型'}
+                ,{field:'startTime', title:'上课时间'}
+                ,{field:'address', title:'上课地点'}
+                ,{field:'score', title:'学分'}
+                ,{field:'courseLong', title:'课时'}
+                ,{field:'createDate', title:'创建日期', unresize: true, sort: true}
+                ,{field:'updateDate', title:'更新日期', unresize: true, sort: true}
                 ,{fixed: 'right', title:'操作', toolbar: '#bar', width:150}
             ]]
             ,id: 'testReload'
@@ -196,36 +198,35 @@
 
 
         //监听工具栏事件
-        table.on('tool(teacherTable)', function(obj) {
+        table.on('tool(courseTable)', function(obj) {
             var data = obj.data;
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
             if(layEvent === 'del'){ //删除
-                layer.confirm('确定删除该条信息么？',{icon: 3, title:'温馨提示'}, function(index){
+                layer.confirm('确定删除该课程么？',{icon: 3, title:'温馨提示'}, function(index){
                     obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
                     layer.close(index);
                     console.log(data.id)
                     //向服务端发送删除请求
-                    $.post("/admin/delUserById",{userId:data.id},function (res) {
+                    $.post("/admin/delCourseById",{courseId:data.id},function (res) {
                         if (res.code == 200){ //删除成功
+                            layer.msg("删除成功");
                             obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
                             layer.close(index);
-                            layer.msg("删除成功");
                             tableObj.reload();//重新刷新数据表格
                         }else {
-                            layer.close(index);
                             layer.msg(res.msg);
+                            layer.close(index);
                             tableObj.reload();//重新刷新数据表格
                         }
                     })
                 });
             }
-            if(layEvent === 'edit'){ //删除
+            if(layEvent === 'edit'){ //编辑
 
-                //获取院系列表进而渲染多选框
-                $.get("/admin/getCollegeList",function (res) {
+                $.get("/admin/getCourseType",function (res) {
                     if (res.code == 200){
                         for(var i =0;i<res.data.length;i++) {
-                            $("#collegeId").append("<option value=\"" + res.data[i].id + "\">" + res.data[i].deptName + "</option>");
+                            $("#coursetp").append("<option value=\"" + res.data[i].id + "\">" + res.data[i].name + "</option>");
                         }
                         layui.form.render("select");
                     }
@@ -233,7 +234,7 @@
 
                 layer.open({
                     type: 1,
-                    title: '编辑教师',
+                    title: '编辑课程信息',
                     skin: 'layui-layer-rim',
                     resize: true,
                     maxmin: true,   //开启大小化
@@ -245,31 +246,23 @@
                     width: '600px',
                     content: $('#test').html() ,//这里content是一个普通的String,
                     success: function(layero, index){
-                        //日期组件渲染
-                        var laydate = layui.laydate;
-                        laydate.render({
-                            elem: '#birth' //指定元素
-                            ,trigger: 'click'
-                        });
                         //回显数据
-                        $("#id").val(data.id);
-                        $("#level").val(data.level);
-                        $("#degree").val(data.degree);
-                        $("#username").val(data.username);
-                        $("#realName").val(data.realName);
-                        $("#formIdcard").val(data.idCard);
-                        $("#birth").val(data.birth);
-                        $("#mobile").val(data.mobile);
-                        $("#collegeId").val(data.collegeId);
-                        $("#username").attr("disabled","disabled")
-                        $("#formIdcard").attr("disabled","disabled")
-                        $("input[name='sex'][value="+data.sex+"]").prop("checked",true);
+
+                        $('#id').val(data.id)
+                        $('#courseno').val(data.courseName)
+                        $('#courseco').val(data.courseCode)
+                        $('#startTime').val(data.startTime)
+                        $('#address').val(data.address)
+                        $('#score').val(data.score)
+                        $('#courseLong').val(data.courseLong)
+                        $('#coursetp').val(data.courseType)
+                        $('#courseco').attr("disabled","disabled")
                         form.render();  //表单渲染
 
                         //提交数据
                         form.on('submit(addSubmit)',function (formData) {
                             console.log(formData)
-                            $.post("/admin/UpdateTeacher",formData.field,function (res) {
+                            $.post("/admin/UpdateCourse",formData.field,function (res) {
                                 console.log("响应"+res.msg)
                                 if(res.code == 200){//成功
                                     layer.msg("修改成功")
@@ -277,7 +270,7 @@
                                     tableObj.reload();//重新刷新数据表格
                                 }else { //操作失败
                                     layer.msg(res.msg)
-                                    $("#AddTeacher")[0].reset();
+                                    $("#AddCourse")[0].reset();
                                 }
                             });
                         })
@@ -302,10 +295,10 @@
             // 搜索条件
             table.reload('testReload',{
                 method: 'get'
-                , url: '/admin/getListByCondition'
+                , url: '/admin/getCourseListByCondition'
                 , where: {
-                    'username':$('#userNameReload').val().trim(),
-                   'idCard':$('#idCard').val().trim()
+                    'courseName':$('#courseName').val().trim(),
+                    'courseCode':$('#courseCode').val().trim()
                 }
                 , page: {
                     curr: 1
@@ -317,19 +310,20 @@
         //弹出添加页面
         $("#addBtn").click(function(){
 
-            //获取院系列表进而渲染多选框
-            $.get("/admin/getCollegeList",function (res) {
+            //获取课程类型列表进而渲染多选框
+            $.get("/admin/getCourseType",function (res) {
                 if (res.code == 200){
                     for(var i =0;i<res.data.length;i++) {
-                        $("#collegeId").append("<option value=\"" + res.data[i].id + "\">" + res.data[i].deptName + "</option>");
+                        $("#coursetp").append("<option value=\"" + res.data[i].id + "\">" + res.data[i].name + "</option>");
                     }
                     layui.form.render("select");
                 }
             });
 
+
             layer.open({
                 type: 1,
-                title: '添加教师',
+                title: '添加课程',
                 skin: 'layui-layer-rim',
                 resize: true,
                 maxmin: true,   //开启大小化
@@ -337,33 +331,25 @@
                 btn: ['提交'],
                 btnAlign: 'c',
                 shade: 0.4,   //遮罩透明度
-                area: '600px',
-                width: '600px',
+                area: ['600px','350px'],
                 content: $('#test').html() ,//这里content是一个普通的String,
                 success: function(layero, index){
-                    //日期组件渲染
-                    var laydate = layui.laydate;
-                    laydate.render({
-                        elem: '#birth' //指定元素
-                        ,trigger: 'click'
-                    });
+
                     form.render();  //表单渲染
                     form.on('submit(addSubmit)',function (data) {
                         console.log(data)
-                        $.post("/admin/AddTeacher",data.field,function (res) {
-                            console.log("响应"+res.msg)
-                            if(res.code == 10101){//用户已存在
+                        $.post("/admin/AddCourse",data.field,function (res) {
+                            if(res.code == 10108){//课程已存在
                                 layer.msg(res.msg)
-                                $("#AddTeacher")[0].reset();
+                                $("#AddCourse")[0].reset();
 
-                            }else if (res.code == 10102){ //身份证被占用
-                                layer.msg(res.msg)
-                                $("#AddTeacher")[0].reset();
                             }else if (res.code == 200){
                                 layer.msg("添加成功")
                                 layer.close(index); //关闭弹层
                                 tableObj.reload();//重新刷新数据表格
 
+                            }else if (res.code == 500){
+                                layer.msg(res.msg)
                             }
                         });
                     })
@@ -371,6 +357,47 @@
                 },
                 yes: function (index,layero) {
                     layero.find('#addSubmitBtn').click();
+                }
+            });
+
+        })
+
+        $("#addTypeBtn").click(function () {
+
+            layer.open({
+                type: 1,
+                title: '添加课程类型',
+                skin: 'layui-layer-rim',
+                resize: true,
+                maxmin: true,   //开启大小化
+                offset: 'auto',
+                btn: ['提交'],
+                btnAlign: 'c',
+                shade: 0.4,   //遮罩透明度
+                area: ['350px','200px'],
+                content: $('#addType').html() ,//这里content是一个普通的String,
+                success: function(layero, index){
+
+                    form.render();  //表单渲染
+                    form.on('submit(addTpBtn)',function (data) {
+                        console.log(data)
+                        $.post("/admin/AddCourseType",data.field,function (res) {
+                            console.log(data)
+                            if(res.code == 10107){//班级已存在
+                                layer.msg(res.msg)
+                                $("#AddCourseType")[0].reset();
+
+                            }else if (res.code == 200){
+                                layer.close(index); //关闭弹层
+                                layer.msg("添加成功")
+
+                            }
+                        });
+                    })
+
+                },
+                yes: function (index,layero) {
+                    layero.find('#addTpBtn').click();
                 }
             });
 

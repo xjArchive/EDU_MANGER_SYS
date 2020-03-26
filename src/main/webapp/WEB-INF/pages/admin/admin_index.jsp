@@ -28,7 +28,7 @@
                     </a>
                 </li>
                 <li class="layui-nav-item layui-hide-xs" lay-unselect>
-                    <a href="http://www.layui.com/admin/" target="_blank" title="前台">
+                    <a href="http://kjxy.nchu.edu.cn/" target="_blank" title="校园官网">
                         <i class="layui-icon layui-icon-website"></i>
                     </a>
                 </li>
@@ -51,11 +51,7 @@
                         <span class="layui-badge-dot"></span>
                     </a>
                 </li>
-                <li class="layui-nav-item layui-hide-xs" lay-unselect>
-                    <a href="javascript:;" layadmin-event="theme">
-                        <i class="layui-icon layui-icon-theme"></i>
-                    </a>
-                </li>
+
                 <li class="layui-nav-item layui-hide-xs" lay-unselect>
                     <a href="javascript:;" layadmin-event="note">
                         <i class="layui-icon layui-icon-note"></i>
@@ -68,13 +64,13 @@
                 </li>
                 <li class="layui-nav-item" lay-unselect>
                     <a href="javascript:;">
-                        <cite>贤心</cite>
+                        <cite>${user.realName}</cite>
                     </a>
                     <dl class="layui-nav-child">
-                        <dd><a lay-href="set/user/info.html">基本资料</a></dd>
-                        <dd><a lay-href="set/user/password.html">修改密码</a></dd>
+                        <dd><a lay-href="View/personView">基本资料</a></dd>
+                        <dd><a lay-href="View/modifyPwsView">修改密码</a></dd>
                         <hr>
-                        <dd layadmin-event="logout" style="text-align: center;"><a>退出</a></dd>
+                        <dd  style="text-align: center;"><a href='javascript:void(0)' id = 'exit'>退出</a></dd>
                     </dl>
                 </li>
 
@@ -91,7 +87,7 @@
         <div class="layui-side layui-side-menu">
             <div class="layui-side-scroll">
                 <div class="layui-logo" lay-href="home/console.html">
-                    <span>layuiAdmin</span>
+                    <span>欢迎你，管理员</span>
                 </div>
 
                 <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu" lay-filter="layadmin-system-side-menu">
@@ -102,19 +98,16 @@
                         </a>
                         <dl class="layui-nav-child">
                             <dd data-name="console" class="layui-this">
-                                <a lay-href="home/console.html">控制台</a>
+                                <a lay-href="View/mainView">校园概览</a>
                             </dd>
                             <dd data-name="console">
-                                <a lay-href="home/homepage1.html">个人中心</a>
-                            </dd>
-                            <dd data-name="console">
-                                <a lay-href="home/homepage2.html">主页二</a>
+                                <a lay-href="View/personView">个人中心</a>
                             </dd>
                         </dl>
                     </li>
                     <li data-name="component" class="layui-nav-item">
                         <a href="javascript:;" lay-tips="组件" lay-direction="2">
-                            <i class="layui-icon layui-icon-component"></i>
+                            <i class="layui-icon layui-icon-user"></i>
                             <cite>用户管理</cite>
                         </a>
                         <dl class="layui-nav-child">
@@ -127,120 +120,87 @@
                         </dl>
                     </li>
                     <li data-name="template" class="layui-nav-item">
-                        <a href="javascript:;" lay-tips="页面" lay-direction="2">
+                        <a href="javascript:;" lay-tips="班级管理" lay-direction="2">
                             <i class="layui-icon layui-icon-template"></i>
-                            <cite>页面</cite>
+                            <cite>班级管理</cite>
                         </a>
                         <dl class="layui-nav-child">
-                            <dd><a lay-href="template/personalpage.html">个人主页</a></dd>
-                            <dd><a lay-href="template/addresslist.html">通讯录</a></dd>
-                            <dd><a lay-href="template/caller.html">客户列表</a></dd>
-                            <dd><a lay-href="template/goodslist.html">商品列表</a></dd>
-                            <dd><a lay-href="template/msgboard.html">留言板</a></dd>
-                            <dd><a lay-href="template/search.html">搜索结果</a></dd>
-                            <dd><a href="user/reg.html" target="_blank">注册</a></dd>
-                            <dd><a href="user/login.html" target="_blank">登入</a></dd>
-                            <dd><a href="user/forget.html" target="_blank">忘记密码</a></dd>
-                            <dd><a lay-href="template/tips/404.html">404页面不存在</a></dd>
-                            <dd><a lay-href="template/tips/error.html">错误提示</a></dd>
-                            <dd><a lay-href="//www.baidu.com/">百度一下</a></dd>
-                            <dd><a lay-href="//www.layui.com/">layui官网</a></dd>
-                            <dd><a lay-href="//www.layui.com/admin/">layuiAdmin官网</a></dd>
+                            <dd><a lay-href="View/classListView">班级管理</a></dd>
                         </dl>
                     </li>
                     <li data-name="app" class="layui-nav-item">
-                        <a href="javascript:;" lay-tips="应用" lay-direction="2">
+                        <a href="javascript:;" lay-tips="课程管理" lay-direction="2">
                             <i class="layui-icon layui-icon-app"></i>
-                            <cite>应用</cite>
+                            <cite>课程管理</cite>
                         </a>
                         <dl class="layui-nav-child">
+                            <dd ><a lay-href="View/courseListView">课程管理</a></dd>
+                            <dd><a lay-href="View/couseMangerListView">排课管理</a></dd>
+                        </dl>
+                    </li>
 
-                            <dd data-name="content">
-                                <a href="javascript:;">内容系统</a>
-                                <dl class="layui-nav-child">
-                                    <dd data-name="list"><a lay-href="app/content/list.html">文章列表</a></dd>
-                                    <dd data-name="tags"><a lay-href="app/content/tags.html">分类管理</a></dd>
-                                    <dd data-name="comment"><a lay-href="app/content/comment.html">评论管理</a></dd>
-                                </dl>
-                            </dd>
-                            <dd data-name="forum">
-                                <a href="javascript:;">社区系统</a>
-                                <dl class="layui-nav-child">
-                                    <dd data-name="list"><a lay-href="app/forum/list.html">帖子列表</a></dd>
-                                    <dd data-name="replys"><a lay-href="app/forum/replys.html">回帖列表</a></dd>
-                                </dl>
-                            </dd>
-                            <dd>
-                                <a lay-href="app/message/index.html">消息中心</a>
-                            </dd>
-                            <dd data-name="workorder">
-                                <a lay-href="app/workorder/list.html">工单系统</a>
-                            </dd>
-                        </dl>
-                    </li>
-                    <li data-name="senior" class="layui-nav-item">
-                        <a href="javascript:;" lay-tips="高级" lay-direction="2">
+                    <li data-name="college" class="layui-nav-item">
+                        <a href="javascript:;" lay-tips="院系管理" lay-direction="2">
                             <i class="layui-icon layui-icon-senior"></i>
-                            <cite>高级</cite>
+                            <cite>院系管理</cite>
                         </a>
                         <dl class="layui-nav-child">
                             <dd>
-                                <a layadmin-event="im">LayIM 通讯系统</a>
-                            </dd>
-                            <dd data-name="echarts">
-                                <a href="javascript:;">Echarts集成</a>
-                                <dl class="layui-nav-child">
-                                    <dd><a lay-href="senior/echarts/line.html">折线图</a></dd>
-                                    <dd><a lay-href="senior/echarts/bar.html">柱状图</a></dd>
-                                    <dd><a lay-href="senior/echarts/map.html">地图</a></dd>
-                                </dl>
+                                <a lay-href="View/collegeListView">院系管理</a>
                             </dd>
                         </dl>
                     </li>
-                    <li data-name="user" class="layui-nav-item">
-                        <a href="javascript:;" lay-tips="用户" lay-direction="2">
-                            <i class="layui-icon layui-icon-user"></i>
-                            <cite>用户</cite>
+
+                    <li data-name="notice" class="layui-nav-item">
+                        <a href="javascript:;" lay-tips="公告管理" lay-direction="2">
+                            <i class="layui-icon layui-icon-senior"></i>
+                            <cite>公告管理</cite>
                         </a>
                         <dl class="layui-nav-child">
                             <dd>
-                                <a lay-href="user/user/list.html">网站用户</a>
-                            </dd>
-                            <dd>
-                                <a lay-href="user/administrators/list.html">后台管理员</a>
-                            </dd>
-                            <dd>
-                                <a lay-href="user/administrators/role.html">角色管理</a>
+                                <a lay-href="View/noticeListView">公告管理</a>
                             </dd>
                         </dl>
                     </li>
-                    <li data-name="set" class="layui-nav-item">
-                        <a href="javascript:;" lay-tips="设置" lay-direction="2">
-                            <i class="layui-icon layui-icon-set"></i>
-                            <cite>设置</cite>
+
+                    <li data-name="grade" class="layui-nav-item">
+                        <a href="javascript:;" lay-tips="成绩管理" lay-direction="2">
+                            <i class="layui-icon layui-icon-senior"></i>
+                            <cite>成绩管理</cite>
                         </a>
                         <dl class="layui-nav-child">
-                            <dd class="layui-nav-itemed">
-                                <a href="javascript:;">系统设置</a>
-                                <dl class="layui-nav-child">
-                                    <dd><a lay-href="set/system/website.html">网站设置</a></dd>
-                                    <dd><a lay-href="set/system/email.html">邮件服务</a></dd>
-                                </dl>
+                            <dd>
+                                <a lay-href="View/studentGradeView">学生成绩管理</a>
                             </dd>
-                            <dd class="layui-nav-itemed">
-                                <a href="javascript:;">我的设置</a>
-                                <dl class="layui-nav-child">
-                                    <dd><a lay-href="set/user/info.html">基本资料</a></dd>
-                                    <dd><a lay-href="set/user/password.html">修改密码</a></dd>
-                                </dl>
+                            <dd>
+                                <a lay-href="View/teacherGradeView">教师成绩管理</a>
                             </dd>
                         </dl>
                     </li>
-                    <li data-name="get" class="layui-nav-item">
-                        <a href="javascript:;" lay-href="//www.layui.com/admin/#get" lay-tips="授权" lay-direction="2">
-                            <i class="layui-icon layui-icon-auz"></i>
-                            <cite>授权</cite>
+
+                    <li data-name="transcation" class="layui-nav-item">
+                        <a href="javascript:;" lay-tips="事务管理" lay-direction="2">
+                            <i class="layui-icon layui-icon-senior"></i>
+                            <cite>事务管理</cite>
                         </a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a lay-href="View/studentGradeView">教师事务管理</a>
+                            </dd>
+                        </dl>
+                    </li>
+
+
+                    <li data-name="transcation" class="layui-nav-item">
+                        <a href="javascript:;" lay-tips="毕业管理" lay-direction="2">
+                            <i class="layui-icon layui-icon-senior"></i>
+                            <cite>毕业管理</cite>
+                        </a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a lay-href="View/graduatedView">毕业管理</a>
+                            </dd>
+                        </dl>
                     </li>
                 </ul>
             </div>
@@ -273,7 +233,7 @@
         <!-- 主体内容 -->
         <div class="layui-body" id="LAY_app_body">
             <div class="layadmin-tabsbody-item layui-show">
-                <iframe src="home/console.html" frameborder="0" class="layadmin-iframe"></iframe>
+                <iframe src="View/mainView" frameborder="0" class="layadmin-iframe"></iframe>
             </div>
         </div>
 
@@ -288,7 +248,27 @@
         base: '../../layuiadmin/' //静态资源所在路径
     }).extend({
         index: '../../layuiadmin/lib/index' //主入口模块
-    }).use('index');
+    }).use(['index','layer','element','jquery'],function () {
+        var $ = layui.jquery;
+        $("#exit").click(function () {
+            layer.confirm('确定要注销当前用户吗？', {
+                btn: ['确定', '取消']
+            },function () { //确定
+                $.post("/logout",function (res) {
+                    if (res.code == 200){
+                        //注销成功
+                        window.location.href="../../login.jsp";
+                    }else {
+                        //注销失败
+                    }
+                })
+            },function (index) {  //取消
+                layer.close(index); //关闭弹层
+            });
+
+
+        });
+    });
 </script>
 
 </body>

@@ -17,6 +17,9 @@
             top:5px;
             left:15px;
         }
+        .addForm{
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -26,31 +29,37 @@
             <div class="layui-card">
                 <div class="layui-card-body">
                     <%--layui搜索--%>
-                 <div class="test-table-reload-btn" style="margin-bottom: 10px;">
-                     <div class="layui-inline">
-                        <label class="layui-form-label">用户名</label>
+                    <div class="test-table-reload-btn" style="margin-bottom: 10px;">
                         <div class="layui-inline">
-                            <input class="layui-input" name="username" id="userNameReload" autocomplete="off">
+                            <label class="layui-form-label">班级号</label>
+                            <div class="layui-inline">
+                                <input class="layui-input" name="classNo" id="classNo" autocomplete="off" lay-verify="number" >
+                            </div>
                         </div>
-                     </div>
-                     <div class="layui-inline">
-                        <label class="layui-form-label">身份证</label>
                         <div class="layui-inline">
-                            <input class="layui-input" name="idCard" id="idCard" autocomplete="off">
+                            <label class="layui-form-label">班级名称</label>
+                            <div class="layui-inline">
+                                <input class="layui-input" name="className" id="className" autocomplete="off">
+                            </div>
                         </div>
-                     </div>
-                     <div class="layui-inline">
-                        <button class="layui-btn search" data-type="reload">搜索</button>
-                     </div>
-                     <div class="layui-inline">
-                        <div class="layui-inline layui-col-md-offset8">
-                            <button    lay-submit lay-filter="addTeacher" class="layui-btn" id ="addBtn"><i class="layui-icon">&#xe608;</i>添加</button>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">所属院系</label>
+                            <div class="layui-inline">
+                                <input class="layui-input" name="collegeName" id="collegeName" autocomplete="off">
+                            </div>
                         </div>
-                     </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn search" data-type="reload">搜索</button>
+                        </div>
+                        <div class="layui-inline">
+                            <div class="layui-inline layui-col-md-offset8">
+                                <button    lay-submit lay-filter="addClass" class="layui-btn" id ="addBtn"><i class="layui-icon">&#xe608;</i>添加</button>
+                            </div>
+                        </div>
 
                     </div>
 
-                    <table class="layui-hide" id="teacherTable" lay-filter="teacherTable"></table>
+                    <table class="layui-hide" id="classTable" lay-filter="classTable"></table>
                     <script type="text/html" id="bar">
                         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
                         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
@@ -64,78 +73,37 @@
 
 
 <script type="text/html" id="test" >
-    <div class="layui-col-md12">
-        <form class="layui-form" id="AddTeacher" method="post" action="">
+    <div class="layui-col-md12 addForm">
+        <form class="layui-form" id="AddClass" method="post" action="">
 
             <input type="hidden" id = "id" name="id" class="layui-input">
 
             <div class="layui-form-item">
-                <label class="layui-form-label layui-required">工号：</label>
+                <label class="layui-form-label layui-required">班级号：</label>
                 <div class="layui-input-block">
-                    <input type="text" id = "username" name="username" class="layui-input" lay-verify="required|number">
+                    <input type="text" id = "cno" name="classNo" class="layui-input" lay-verify="required|number">
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label layui-required">姓名：</label>
+                <label class="layui-form-label layui-required">班级名称：</label>
                 <div class="layui-input-block">
-                    <input type="text" id="realName" name="realName" class="layui-input" lay-verify="required">
+                    <input type="text" id="cname" name="className" class="layui-input" lay-verify="required">
                 </div>
             </div>
+
             <div class="layui-form-item">
-                <label class="layui-form-label">性别：</label>
+                <label class="layui-form-label layui-required">所属院系：</label>
                 <div class="layui-input-block">
-                    <input type="radio"  name="sex" value="1" title="男" checked>
-                    <input type="radio" name="sex" value="0" title="女">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">出生年月：</label>
-                <div class="layui-input-block">
-                    <input  id="birth" name="birth" autocomplete="off"
-                            class="layui-input" placeholder="yyyy-MM-dd" lay-key="2">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label layui-required">手机号码：</label>
-                <div class="layui-input-block">
-                    <input type="text" id="mobile" name="mobile" class="layui-input" lay-verify="required|phone">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label layui-required">学历：</label>
-                <div class="layui-input-block">
-                    <select name="degree" id="degree">
-                        <option value="">请选择学历</option>
-                        <option value="本科">本科</option>
-                        <option value="专科">专科</option>
-                        <option value="高中及初中以下">高中及初中以下</option>
-                        <option value="高中及初中以下">研究生</option>
+                    <select name="collegeId" id="collegeId" lay-filter="mySelect" class="mySelect" lay-verify="required">
+                        <option value="" >请选择院系</option>
                     </select>
                 </div>
             </div>
+
             <div class="layui-form-item">
-                <label class="layui-form-label layui-required">职称：</label>
+                <label class="layui-form-label layui-required">班级人数：</label>
                 <div class="layui-input-block">
-                    <select name="level" id="level">
-                        <option value="">请选择职称</option>
-                        <option value="初级">初级</option>
-                        <option value="中级">中级</option>
-                        <option value="高级">高级</option>
-                        <option value="特级">特级</option>
-                    </select>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label layui-required">院系：</label>
-                <div class="layui-input-block">
-                    <select name="collegeId" id="collegeId">
-                    </select>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label layui-required">身份证：</label>
-                <div class="layui-input-block">
-                    <input type="text" id="formIdcard" name="idCard" class="layui-input" lay-verify = "required|identity">
+                    <input type="text" id="stuNo" name="studentNum" class="layui-input" lay-verify="required|number">
                 </div>
             </div>
 
@@ -159,35 +127,27 @@
         var element = layui.element;
         var form = layui.form;
         var tableObj = table.render({
-            elem: '#teacherTable'
-            ,url: '/admin/getAllTeacher'
+            elem: '#classTable'
+            ,url: '/admin/getAllClass'
             ,toolbar: true
             , parseData: function (res) { //解析服务器端返回的数据
                 console.log(res)
             }
-            ,title: '用户数据表'
+            ,title: '班级数据表'
             ,page: true
-            ,limits: [10,15,20,30,40,50]
             ,response: { //自定义数据状态的字段名称
                 statusName: 'code',
                 statusCode: 200
             }
             ,cols: [[
                 {type: 'checkbox', fixed: 'left'}
-                ,{field:'id', title:'ID', fixed: 'left',width:80, sort: true}
-                ,{field:'username', title:'用户名', width:120}
-                ,{field:'realName', title:'真实姓名',width:120}
-                ,{field:'birth', title:'出生年月', width:150, sort: true}
-                ,{field:'mobile', title:'电话', width:120}
-                ,{field:'degree', title:'学历'}
-                ,{field:'idCard', title:'身份证', width:150, sort: true}
-                ,{field:'sex', title:'性别',unresize: true,templet : function(d) {
-                        if (d.sex == 0)
-                            return "<div class='woman'>女</div>";
-                        else
-                            return "<div class='man'>男</div>";
-                    }}
-                ,{field:'createDate', title:'创建日期',unresize: true, width:120, sort: true}
+                ,{field:'id', title:'ID', fixed: 'left', width:80, sort: true}
+                ,{field:'classNo', title:'班级号', width:80}
+                ,{field:'className', title:'班级名称',width:160}
+                ,{field:'studentNum', title:'班级人数', width:150, sort: true}
+                ,{field:'deptName', title:'所属院系', width:150}
+                ,{field:'createDate', title:'创建日期', unresize: true, sort: true}
+                ,{field:'updateDate', title:'更新日期', unresize: true, sort: true}
                 ,{fixed: 'right', title:'操作', toolbar: '#bar', width:150}
             ]]
             ,id: 'testReload'
@@ -196,30 +156,30 @@
 
 
         //监听工具栏事件
-        table.on('tool(teacherTable)', function(obj) {
+        table.on('tool(classTable)', function(obj) {
             var data = obj.data;
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
             if(layEvent === 'del'){ //删除
-                layer.confirm('确定删除该条信息么？',{icon: 3, title:'温馨提示'}, function(index){
+                layer.confirm('确定删除该班级么？',{icon: 3, title:'温馨提示'}, function(index){
                     obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
                     layer.close(index);
                     console.log(data.id)
                     //向服务端发送删除请求
-                    $.post("/admin/delUserById",{userId:data.id},function (res) {
+                    $.post("/admin/delClassById",{classId:data.id},function (res) {
                         if (res.code == 200){ //删除成功
                             obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
                             layer.close(index);
                             layer.msg("删除成功");
                             tableObj.reload();//重新刷新数据表格
                         }else {
-                            layer.close(index);
                             layer.msg(res.msg);
+                            layer.close(index);
                             tableObj.reload();//重新刷新数据表格
                         }
                     })
                 });
             }
-            if(layEvent === 'edit'){ //删除
+            if(layEvent === 'edit'){ //编辑
 
                 //获取院系列表进而渲染多选框
                 $.get("/admin/getCollegeList",function (res) {
@@ -233,7 +193,7 @@
 
                 layer.open({
                     type: 1,
-                    title: '编辑教师',
+                    title: '编辑班级信息',
                     skin: 'layui-layer-rim',
                     resize: true,
                     maxmin: true,   //开启大小化
@@ -245,31 +205,19 @@
                     width: '600px',
                     content: $('#test').html() ,//这里content是一个普通的String,
                     success: function(layero, index){
-                        //日期组件渲染
-                        var laydate = layui.laydate;
-                        laydate.render({
-                            elem: '#birth' //指定元素
-                            ,trigger: 'click'
-                        });
                         //回显数据
                         $("#id").val(data.id);
-                        $("#level").val(data.level);
-                        $("#degree").val(data.degree);
-                        $("#username").val(data.username);
-                        $("#realName").val(data.realName);
-                        $("#formIdcard").val(data.idCard);
-                        $("#birth").val(data.birth);
-                        $("#mobile").val(data.mobile);
+                        $("#cno").val(data.classNo);
+                        $("#stuNo").val(data.studentNum);
                         $("#collegeId").val(data.collegeId);
-                        $("#username").attr("disabled","disabled")
-                        $("#formIdcard").attr("disabled","disabled")
-                        $("input[name='sex'][value="+data.sex+"]").prop("checked",true);
+                        $("#cname").val(data.className);
+                        $("#cname").attr("disabled","disabled");
                         form.render();  //表单渲染
 
                         //提交数据
                         form.on('submit(addSubmit)',function (formData) {
                             console.log(formData)
-                            $.post("/admin/UpdateTeacher",formData.field,function (res) {
+                            $.post("/admin/UpdateClass",formData.field,function (res) {
                                 console.log("响应"+res.msg)
                                 if(res.code == 200){//成功
                                     layer.msg("修改成功")
@@ -277,7 +225,7 @@
                                     tableObj.reload();//重新刷新数据表格
                                 }else { //操作失败
                                     layer.msg(res.msg)
-                                    $("#AddTeacher")[0].reset();
+                                    $("#AddClass")[0].reset();
                                 }
                             });
                         })
@@ -302,10 +250,10 @@
             // 搜索条件
             table.reload('testReload',{
                 method: 'get'
-                , url: '/admin/getListByCondition'
+                , url: '/admin/getClassListByCondition'
                 , where: {
-                    'username':$('#userNameReload').val().trim(),
-                   'idCard':$('#idCard').val().trim()
+                    'classNo':$('#classNo').val().trim(),
+                    'className':$('#className').val().trim()
                 }
                 , page: {
                     curr: 1
@@ -327,9 +275,10 @@
                 }
             });
 
+
             layer.open({
                 type: 1,
-                title: '添加教师',
+                title: '添加班级',
                 skin: 'layui-layer-rim',
                 resize: true,
                 maxmin: true,   //开启大小化
@@ -337,28 +286,18 @@
                 btn: ['提交'],
                 btnAlign: 'c',
                 shade: 0.4,   //遮罩透明度
-                area: '600px',
-                width: '600px',
+                area: ['600px','350px'],
                 content: $('#test').html() ,//这里content是一个普通的String,
                 success: function(layero, index){
-                    //日期组件渲染
-                    var laydate = layui.laydate;
-                    laydate.render({
-                        elem: '#birth' //指定元素
-                        ,trigger: 'click'
-                    });
+
                     form.render();  //表单渲染
                     form.on('submit(addSubmit)',function (data) {
                         console.log(data)
-                        $.post("/admin/AddTeacher",data.field,function (res) {
-                            console.log("响应"+res.msg)
-                            if(res.code == 10101){//用户已存在
+                        $.post("/admin/AddClass",data.field,function (res) {
+                            if(res.code == 10106){//班级已存在
                                 layer.msg(res.msg)
-                                $("#AddTeacher")[0].reset();
+                                $("#AddClass")[0].reset();
 
-                            }else if (res.code == 10102){ //身份证被占用
-                                layer.msg(res.msg)
-                                $("#AddTeacher")[0].reset();
                             }else if (res.code == 200){
                                 layer.msg("添加成功")
                                 layer.close(index); //关闭弹层
