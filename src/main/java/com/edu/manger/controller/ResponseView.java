@@ -38,4 +38,59 @@ public class ResponseView {
         return "admin/admin_showStudent";
     }
 
+    @RequestMapping(value = {"/collegeListView",""},method = RequestMethod.GET)
+    @ApiOperation("点击院系管理，返回页面")
+    public String getCollegeList( HttpServletRequest request, HttpServletResponse response, Model model){
+        return "admin/admin_college";
+    }
+
+    @RequestMapping(value = {"/mainView",""},method = RequestMethod.GET)
+    @ApiOperation("点击校园概览，返回页面")
+    public String getMain(){
+        return "admin/admin_main";
+    }
+
+    @RequestMapping(value = {"/classListView",""},method = RequestMethod.GET)
+    @ApiOperation("点击班级管理，返回页面")
+    public String getClassList( HttpServletRequest request, HttpServletResponse response, Model model){
+        return "admin/admin_class";
+    }
+
+    @RequestMapping(value = {"/personView",""},method = RequestMethod.GET)
+    @ApiOperation("点击个人中心，返回页面")
+    public String getPersion(){
+        return "admin/admin_person";
+    }
+
+    @RequestMapping(value = {"/modifyPwsView",""},method = RequestMethod.GET)
+    @ApiOperation("点击修改密码，返回页面")
+    public String modifyPwd(){
+        return "admin/admin_modifyPwd";
+    }
+
+    @RequestMapping(value = {"/courseListView",""},method = RequestMethod.GET)
+    @ApiOperation("点击课程管理，返回页面")
+    public String getCourseList(){
+        return "admin/admin_course";
+    }
+
+    @RequestMapping(value = {"/couseMangerListView",""},method = RequestMethod.GET)
+    @ApiOperation("点击排课管理，返回页面")
+    public String getCourseArrangeList(){
+        return "admin/admin_courseArrange";
+    }
+
+
+    @RequestMapping(value = {"/noticeListView",""},method = RequestMethod.GET)
+    @ApiOperation("点击排课管理，返回页面")
+    public String getNoticeList(){
+        return "admin/admin_notice";
+    }
+
+    @RequestMapping(value = {"/studentGradeView",""},method = RequestMethod.GET)
+    @ApiOperation("点击排课管理，返回页面")
+    public String studentGradeView(){
+        return "admin/admin_studentGrade";
+    }
+
 }
