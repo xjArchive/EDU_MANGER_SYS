@@ -2,6 +2,7 @@ package com.edu.manger.service;
 
 import com.edu.manger.constants.RestResponse;
 import com.edu.manger.entry.User;
+import io.swagger.models.auth.In;
 
 import java.util.List;
 
@@ -19,15 +20,17 @@ public interface UserService {
     //登录时，根据用户名获取用户
     public User findUserbyName(String username);
 
-    public int delete(Integer id);
+    public RestResponse deleteById(Integer id);
 
     public RestResponse update(User user);
 
-    public RestResponse findTeacherList(User user);
+    public RestResponse findTeacherList(User user, Integer page, Integer limit);
 
     public List<User> findPage(User user);
 
     public RestResponse saveTeacher(User user);
 
     public RestResponse saveStudent(User user);
+
+    public User getUserById(Integer id);
 }
