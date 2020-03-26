@@ -17,4 +17,8 @@ public interface UserMapper {
     public int update(User user);
 
     public List<User>  findTeacherList(User user);
+
+    public User get(@Param("id")Integer id);
+
+
 }
