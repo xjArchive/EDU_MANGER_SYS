@@ -1,5 +1,7 @@
 package com.edu.manger.config;
 
+import com.edu.manger.utils.PasswordMd5Utils;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -44,7 +46,6 @@ public class ShiroConfig {
         map.put("/druid/**","anon");
         map.put("/**","anon");
 
-
         shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
         return  shiroFilterFactoryBean;
     }
@@ -57,16 +58,40 @@ public class ShiroConfig {
     public DefaultWebSecurityManager getDefaultWebSecurityManager(@Qualifier("realm") UserRealm realm){
 
         DefaultWebSecurityManager SecurityManager = new DefaultWebSecurityManager();
+        //加入shiro认证
         SecurityManager.setRealm(realm);
         return SecurityManager;
     }
+
+
+    /**
+     *
+     * @return
+     */
+
+    @Bean("hashedCredentialsMatcher")
+    public HashedCredentialsMatcher hashedCredentialsMatcher() {
+        HashedCredentialsMatcher credentialsMatcher = new HashedCredentialsMatcher();
+        // 指定加密方式为MD5
+        credentialsMatcher.setHashAlgorithmName(PasswordMd5Utils.hashAlgorithName);
+        // 加密次数
+        credentialsMatcher.setHashIterations(PasswordMd5Utils.hashIterations);
+        credentialsMatcher.setStoredCredentialsHexEncoded(true);
+        return credentialsMatcher;
+    }
+
+
+
 
     /**
      * 创建realm
      */
     @Bean("realm")
-    public UserRealm getRealm(){
-        return  new UserRealm();
+    public UserRealm getRealm(@Qualifier("hashedCredentialsMatcher") HashedCredentialsMatcher matcher){
+
+        UserRealm userRealm = new UserRealm();
+        userRealm.setCredentialsMatcher(matcher);//加入加密配置
+        return userRealm;
     }
 
 

@@ -6,13 +6,17 @@ import com.edu.manger.entry.UserRole;
 import com.edu.manger.service.RoleService;
 import com.edu.manger.service.UserRoleService;
 import com.edu.manger.service.UserService;
+import com.edu.manger.utils.PasswordMd5Utils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -80,7 +84,10 @@ public class UserRealm  extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         System.out.println("认证");
-
+        // 加这一步的目的是在Post请求的时候会先认证
+        if (authenticationToken.getPrincipal() == null){
+            return  null;
+        }
         //获取用户名，并查找数据库
         UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
         //判断用户
@@ -89,6 +96,7 @@ public class UserRealm  extends AuthorizingRealm {
             return null;
         }
         //判断密码
-        return new SimpleAuthenticationInfo(user,user.getPassword(),"");
+        return new SimpleAuthenticationInfo(user,user.getPassword(), ByteSource.Util.bytes(PasswordMd5Utils.salt),this.getClass().getName());
     }
+
 }
