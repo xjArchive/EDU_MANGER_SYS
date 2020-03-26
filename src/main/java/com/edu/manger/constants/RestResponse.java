@@ -23,6 +23,8 @@ public class RestResponse <T> {
           *这也就是所谓的工厂模式的应用,
      */
 
+
+
     public static <T> RestResponse<T> success() {
         return new RestResponse<>();
     }
@@ -39,6 +41,18 @@ public class RestResponse <T> {
         return restResponse;
     }
 
+    public static <T> RestResponse<T> success(T data) {
+        RestResponse restResponse = new RestResponse(RestCode.OK.code,RestCode.OK.msg,data);
+        restResponse.setData(data);
+        return restResponse;
+    }
+
+    public RestResponse(int code, String msg, T data) {
+        this.code = code;
+        this.msg = msg;
+        this.data = data;
+    }
+
     public static <T> RestResponse<T> noData(T data) {
         RestResponse restResponse = new RestResponse(RestCode.DATA_NOT_EXISTS.code,RestCode.DATA_NOT_EXISTS.msg,data,Long.parseLong(0+""));
         restResponse.setData(data);
@@ -52,7 +66,7 @@ public class RestResponse <T> {
 
     public RestResponse() {
         //默认会调用有参的构造函数,默认是成功的
-        this(RestCode.OK.code, RestCode.OK.msg);
+        //this(RestCode.OK.code, RestCode.OK.msg);
     }
 
     public RestResponse(int code, String msg, T data,Long count) {
@@ -103,4 +117,5 @@ public class RestResponse <T> {
     public void setCount(Long count) {
         this.count = count;
     }
+
 }
