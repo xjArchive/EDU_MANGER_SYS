@@ -1,18 +1,23 @@
 package com.edu.manger.entry;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.io.Serializable;
 import java.util.Date;
-
-public class Course implements Serializable {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class Course {
     private Integer id;
 
     private String courseCode;
 
     private String courseName;
 
+    private String courseType;
+
     private Integer courseTeacherid;
 
-    private Date startTime;
+    private String startTime;
 
     private String address;
 
@@ -26,7 +31,24 @@ public class Course implements Serializable {
 
     private Integer delFlag;
 
+    private String name;  //课程类型名
+
     private static final long serialVersionUID = 1L;
+
+    public Course(String courseCode, String courseName, String courseType, String startTime, String address, Integer score, Integer courseLong, Date createDate, Date updateDate) {
+        this.courseCode = courseCode;
+        this.courseName = courseName;
+        this.courseType = courseType;
+        this.startTime = startTime;
+        this.address = address;
+        this.score = score;
+        this.courseLong = courseLong;
+        this.createDate = createDate;
+        this.updateDate = updateDate;
+    }
+
+    public Course() {
+    }
 
     public Integer getId() {
         return id;
@@ -60,11 +82,11 @@ public class Course implements Serializable {
         this.courseTeacherid = courseTeacherid;
     }
 
-    public Date getStartTime() {
+    public String getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Date startTime) {
+    public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
 
@@ -92,6 +114,7 @@ public class Course implements Serializable {
         this.courseLong = courseLong;
     }
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getCreateDate() {
         return createDate;
     }
@@ -100,6 +123,7 @@ public class Course implements Serializable {
         this.createDate = createDate;
     }
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getUpdateDate() {
         return updateDate;
     }
@@ -116,25 +140,19 @@ public class Course implements Serializable {
         this.delFlag = delFlag;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", courseCode=").append(courseCode);
-        sb.append(", courseName=").append(courseName);
-        sb.append(", courseTeacherid=").append(courseTeacherid);
-        sb.append(", startTime=").append(startTime);
-        sb.append(", address=").append(address);
-        sb.append(", score=").append(score);
-        sb.append(", courseLong=").append(courseLong);
-        sb.append(", createDate=").append(createDate);
-        sb.append(", updateDate=").append(updateDate);
-        sb.append(", delFlag=").append(delFlag);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
+    public String getCourseType() {
+        return courseType;
+    }
+
+    public void setCourseType(String courseType) {
+        this.courseType = courseType;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

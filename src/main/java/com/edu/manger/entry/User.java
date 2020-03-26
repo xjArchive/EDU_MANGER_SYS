@@ -29,6 +29,8 @@ public class User{
 
     private Integer collegeId;
 
+    private Integer classId;
+
     private String idCard;
 
     private Date createDate;
@@ -41,7 +43,17 @@ public class User{
 
     private Integer flag;
 
+    private String IP;
+
     private static final long serialVersionUID = 1L;
+
+    public Integer getClassId() {
+        return classId;
+    }
+
+    public void setClassId(Integer classId) {
+        this.classId = classId;
+    }
 
     public Integer getId() {
         return id;
@@ -172,6 +184,14 @@ public class User{
 
     public void setFlag(Integer flag) {
         this.flag = flag;
+    }
+
+    public String getIP() {
+        return IP;
+    }
+
+    public void setIP(String IP) {
+        this.IP = IP;
     }
 
     @Override

@@ -1,9 +1,13 @@
 package com.edu.manger.entry;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.io.Serializable;
 import java.util.Date;
 
-public class Dept implements Serializable {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class Dept {
 
     private static final long serialVersionUID = 1L;
 
@@ -34,7 +38,7 @@ public class Dept implements Serializable {
     }
 
     public void setDeptCode(String deptCode) {
-        this.deptCode = deptCode == null ? null : deptCode.trim();
+        this.deptCode = deptCode;
     }
 
     public String getDeptName() {
@@ -42,9 +46,10 @@ public class Dept implements Serializable {
     }
 
     public void setDeptName(String deptName) {
-        this.deptName = deptName == null ? null : deptName.trim();
+        this.deptName = deptName;
     }
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getCreateDate() {
         return createDate;
     }
@@ -53,6 +58,7 @@ public class Dept implements Serializable {
         this.createDate = createDate;
     }
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getUpdateDate() {
         return updateDate;
     }
@@ -69,20 +75,5 @@ public class Dept implements Serializable {
         this.delFlag = delFlag;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", deptCode=").append(deptCode);
-        sb.append(", deptName=").append(deptName);
-        sb.append(", createDate=").append(createDate);
-        sb.append(", updateDate=").append(updateDate);
-        sb.append(", delFlag=").append(delFlag);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
-    }
+
 }
