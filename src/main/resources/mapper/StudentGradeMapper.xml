@@ -8,6 +8,7 @@
 		a.marks AS "marks",
 		a.college_id AS "collegeId",
 		a.flag AS "flag",
+		a.type AS "type",
 		b.username AS "username",
 		b.real_name AS "realName",
 		c.course_name AS "courseName",
@@ -41,6 +42,9 @@
       <if test="flag != null">
         AND a.flag = #{flag}
       </if>
+      <if test="type != null">
+        AND a.type = #{type}
+      </if>
     </where>
   </sql>
 
@@ -53,6 +57,7 @@
       <if test="collegeId != null">college_id,</if>
       <if test="marks != null">marks,</if>
       <if test="flag != null">flag,</if>
+      <if test="type != null">type,</if>
 
     </trim>
     <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
@@ -62,7 +67,7 @@
       <if test="collegeId != null">#{collegeId},</if>
       <if test="marks != null">#{marks},</if>
       <if test="flag != null">#{flag},</if>
-
+      <if test="type != null">#{type},</if>
     </trim>
   </insert>
   <select id="get" resultType="com.edu.manger.entry.StudentGrade">
@@ -110,6 +115,9 @@
         </if>
         <if test="flag != null">
           flag = #{flag},
+        </if>
+        <if test="type != null">
+          type = #{type},
         </if>
       </set>
       WHERE  id = #{id}

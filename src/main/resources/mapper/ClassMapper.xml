@@ -49,7 +49,7 @@
         <trim prefix="(" suffix=")" suffixOverrides=",">
 
             <if test="classNo != null and classNo !=''">class_no,</if>
-            <if test="className != null">class_name,</if>
+            <if test="className != null and className !=''">class_name,</if>
             <if test="studentNum != null">student_num,</if>
             <if test="collegeId != null">college_id,</if>
             <if test="createDate != null">create_date,</if>
@@ -59,7 +59,7 @@
         <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
 
             <if test="classNo != null and classNo !=''">#{classNo},</if>
-            <if test="className != null">#{className},</if>
+            <if test="className != null and className !=''">#{className},</if>
             <if test="studentNum != null">#{studentNum},</if>
             <if test="collegeId != null">#{collegeId},</if>
             <if test="createDate != null">#{createDate},</if>
@@ -99,7 +99,7 @@
             <if test="classNo != null and classNo !=''">
                 class_no = #{classNo},
             </if>
-            <if test="className != null">
+            <if test="className != null and className !=''">
                 class_name = #{className},
             </if>
             <if test="studentNum != null">

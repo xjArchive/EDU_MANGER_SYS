@@ -8,7 +8,14 @@
 		a.college_name  AS "collegeName",
 		a.course_address AS "courseAddress",
 		a.teacher_no AS "teacherNo",
-		a.class_name AS "className"
+		a.class_name AS "className",
+		a.week AS "week",
+		a.jieci AS "jieci",
+		b.start_time AS "startTime",
+		b.course_long AS "courseLong",
+		b.type AS "type",
+		b.score AS "score",
+		c.real_name AS "teacherName"
 	</sql>
   <sql id="courseArrangeJoin">
     LEFT JOIN course b ON a.course_code = b.course_code
@@ -42,6 +49,12 @@
       <if test="className != null and className != ''">
         AND a.class_name = #{className}
       </if>
+      <if test="week != null and week != ''">
+        AND a.week = #{week}
+      </if>
+      <if test="jieci != null and jieci != ''">
+        AND a.jieci = #{jieci}
+      </if>
     </where>
   </sql>
 
@@ -54,7 +67,9 @@
       <if test="courseAddress != null">course_address,</if>
       <if test="collegeName != null">college_name,</if>
       <if test="teacherNo != null">teacher_no,</if>
-      <if test="className != null">class_name,</if>
+      <if test="className != null and className !=''">class_name,</if>
+      <if test="week != null">week,</if>
+      <if test="jieci != null">jieci,</if>
     </trim>
     <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
 
@@ -63,7 +78,9 @@
       <if test="courseAddress != null">#{courseAddress},</if>
       <if test="collegeName != null">#{collegeName},</if>
       <if test="teacherNo != null">#{teacherNo},</if>
-      <if test="className != null">#{className},</if>
+      <if test="className != null and className !=''">#{className},</if>
+      <if test="week != null">#{week},</if>
+      <if test="jieci != null">#{jieci},</if>
     </trim>
   </insert>
 
@@ -78,6 +95,15 @@
     <include refid="CourseArrangeColumns"/>
     <include refid="listOrCountSql"/>
   </select>
+
+  <select id="get" resultType="com.edu.manger.entry.CourseArrange">
+    SELECT
+    <include refid="CourseArrangeColumns"/>
+    FROM course_arrange a
+    <include refid="courseArrangeJoin"/>
+    WHERE a.id = #{id}
+  </select>
+
 
   <update id="update">
     update  course_arrange
@@ -99,6 +125,12 @@
       </if>
       <if test="className != null and className !=''">
         class_name = #{className},
+      </if>
+      <if test="week != null and week !=''">
+        week = #{week},
+      </if>
+      <if test="jieci != null and jieci !=''">
+        jieci = #{jieci},
       </if>
     </set>
     WHERE  id = #{id}

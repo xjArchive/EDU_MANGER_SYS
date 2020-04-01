@@ -67,6 +67,13 @@
     <include refid="listOrCountSql"/>
   </select>
 
+  <select id="findRecentNotice" resultType="com.edu.manger.entry.Notice">
+    SELECT
+    <include refid="NoticeColumns"/>
+    <include refid="listOrCountSql"/>
+    ORDER BY a.update_date desc
+  </select>
+
   <select id="findList" resultType="com.edu.manger.entry.Notice">
     SELECT
     <include refid="NoticeColumns"/>

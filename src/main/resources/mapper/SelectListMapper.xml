@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edu.manger.dao.SelectListMapper">
+  <sql id="NoticeColumns">
+		a.id AS "id",
+		a.username AS "username",
+		a.name AS "name",
+		a.select_id AS "selectId",
+		a.create_date AS "createDate"
+	</sql>
+  <sql id="NoticeJoin">
+
+  </sql>
+
+  <sql id="listOrCountSql">
+    FROM select_list a
+    <include refid="NoticeJoin"/>
+    <where>
+      <if test="id != null and id != ''">
+        AND a.id = #{id}
+      </if>
+      <if test="username != null and username != ''">
+        AND a.username = #{username}
+      </if>
+      <if test="name != null and name != ''">
+        AND a.name = #{name}
+      </if>
+      <if test="selectId != null and selectId != ''">
+        AND a.select_id = #{selectId}
+      </if>
+      <if test="createDate != null">
+        AND a.create_date = #{createDate}
+      </if>
+    </where>
+  </sql>
+
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO select_list
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+
+      <if test="username != null">username,</if>
+      <if test="name != null">name,</if>
+      <if test="selectId != null">select_id,</if>
+      <if test="createDate != null">create_date,</if>
+
+    </trim>
+    <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+
+      <if test="username != null">#{username},</if>
+      <if test="name != null">#{name},</if>
+      <if test="selectId != null">#{selectId},</if>
+      <if test="createDate != null">#{createDate},</if>
+
+    </trim>
+  </insert>
+  <select id="get" resultType="com.edu.manger.entry.SelectList">
+    SELECT
+    <include refid="NoticeColumns"/>
+    FROM notice a
+    <include refid="NoticeJoin"/>
+    WHERE a.id = #{id}
+  </select>
+
+
+  <select id="findList" resultType="com.edu.manger.entry.SelectList">
+    SELECT
+    <include refid="NoticeColumns"/>
+    <include refid="listOrCountSql"/>
+  </select>
+
+  <delete id="delete">
+    DELETE  FROM select_list WHERE id = #{id}
+  </delete>
+
+  <update id="update">
+    update  select_list
+      <set>
+        <if test="username != null">
+          username = #{username},
+        </if>
+        <if test="name != null">
+          name = #{name},
+        </if>
+        <if test="selectId != null">
+          select_id = #{selectId},
+        </if>
+        <if test="createDate != null">
+          create_date = #{createDate},
+        </if>
+      </set>
+      WHERE  id = #{id}
+  </update>
+
+</mapper>

@@ -12,6 +12,7 @@
 		a.course_long AS "courseLong",
 		a.create_date AS "createDate",
 		a.update_date AS "updateDate",
+		a.type AS "type",
 		b.name AS "name",
 		a.del_flag AS "delFlag"
 
@@ -54,6 +55,9 @@
       <if test="updateDate != null">
         AND a.update_date = #{updateDate}
       </if>
+      <if test="type != null and type != ''">
+        AND a.type = #{type}
+      </if>
       <if test="delFlag != null and delFlag != ''">
         AND a.del_flag = #{delFlag}
       </if>
@@ -73,6 +77,7 @@
       <if test="courseLong != null">course_long,</if>
       <if test="createDate != null">create_date,</if>
       <if test="updateDate != null">update_date,</if>
+      <if test="type != null">type,</if>
       <if test="delFlag != null">del_flag,</if>
 
     </trim>
@@ -87,6 +92,7 @@
       <if test="courseLong != null">#{courseLong},</if>
       <if test="createDate != null">#{createDate},</if>
       <if test="updateDate != null">#{updateDate},</if>
+      <if test="type != null">#{type},</if>
       <if test="delFlag != null">#{del_flag},</if>
 
     </trim>
@@ -137,6 +143,9 @@
       </if>
       <if test="updateDate!= null">
         update_date = #{updateDate},
+      </if>
+      <if test="type!= null">
+        type = #{type},
       </if>
     </set>
     WHERE  id = #{id}

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edu.manger.dao.TranMapper">
+  <sql id="TranColumns">
+		a.id AS "id",
+		a.title AS "title",
+		a.content AS "content",
+		a.img AS "img",
+		a.create_by AS "createBy",
+		a.status AS "status",
+		a.create_date AS "createDate",
+		a.update_date AS "updateDate"
+	</sql>
+  <sql id="TranJoin">
+		LEFT JOIN tbl_user b ON a.create_by = b.username
+  </sql>
+
+	<sql id="listOrCountSql">
+		FROM tran a
+		<include refid="TranJoin"/>
+		<where>
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
+			</if>
+			<if test="title != null and title != ''">
+				AND a.title = #{title}
+			</if>
+			<if test="content != null and content != ''">
+				AND a.password = #{content}
+			</if>
+			<if test="img != null and img != ''">
+				AND a.img = #{img}
+			</if>
+			<if test="createBy != null and createBy != ''">
+				AND a.create_by = #{createBy}
+			</if>
+			<if test="status != null and status != ''">
+				AND a.status = #{status}
+			</if>
+			<if test="createDate != null">
+				AND a.create_date = #{createDate}
+			</if>
+			<if test="updateDate != null">
+				AND a.update_date = #{updateDate}
+			</if>
+		</where>
+	</sql>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO tran
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+
+			<if test="title != null">title,</if>
+			<if test="content != null">content,</if>
+			<if test="img != null">img,</if>
+			<if test="createBy != null">create_by,</if>
+			<if test="status != null">status,</if>
+			<if test="createDate != null">create_date,</if>
+			<if test="updateDate != null">update_date,</if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+
+			<if test="title != null">#{title},</if>
+			<if test="content != null">#{content},</if>
+			<if test="img != null">#{img},</if>
+			<if test="createBy != null">#{createBy},</if>
+			<if test="status != null">#{status},</if>
+			<if test="createDate != null">#{createDate},</if>
+			<if test="updateDate != null">#{updateDate},</if>
+
+		</trim>
+	</insert>
+
+	<select id="findList" resultType="com.edu.manger.entry.Tran">
+		SELECT
+		<include refid="TranColumns"/>
+		<include refid="listOrCountSql"/>
+	</select>
+
+	<select id="get" resultType="com.edu.manger.entry.Tran">
+		SELECT
+		<include refid="TranColumns"/>
+		FROM tran a
+		WHERE id = #{id}
+	</select>
+
+
+	<update id="update">
+		UPDATE tran
+		<set>
+			<if test="title != null">title = #{title},</if>
+			<if test="content != null">content = #{content},</if>
+			<if test="img != null">img = #{img},</if>
+			<if test="status != null">status = #{status},</if>
+			<if test="createBy != null">create_by = #{createBy},</if>
+			<if test="createDate != null">create_date = #{createDate},</if>
+			<if test="updateDate != null">update_date = #{updateDate},</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<delete id="delete">
+		DELETE  FROM tran WHERE id = #{id}
+	</delete>
+
+</mapper>

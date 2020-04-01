@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edu.manger.dao.SelectMapper">
+  <sql id="SelectColumns">
+		a.id AS "id",
+		a.name AS "name",
+		a.content AS "content",
+		a.status AS "status"
+	</sql>
+  <sql id="SelectJoin">
+
+  </sql>
+
+  <sql id="listOrCountSql">
+    FROM sel a
+    <include refid="SelectJoin"/>
+    <where>
+      <if test="id != null and id != ''">
+        AND a.id = #{id}
+      </if>
+      <if test="name != null and name != ''">
+        AND a.name = #{name}
+      </if>
+      <if test="content != null and content != ''">
+        AND a.content LIKE CONCAT('%',#{content},'%')
+      </if>
+      <if test="status != null and status != ''">
+        AND a.content = #{status}
+      </if>
+    </where>
+  </sql>
+
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO sel
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+
+      <if test="name != null">name,</if>
+      <if test="content != null">content,</if>
+      <if test="status != null">status,</if>
+
+    </trim>
+    <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+
+      <if test="name != null">#{name},</if>
+      <if test="content != null">#{content},</if>
+      <if test="status != null">#{status},</if>
+    </trim>
+  </insert>
+  <select id="get" resultType="com.edu.manger.entry.Select">
+    SELECT
+    <include refid="SelectColumns"/>
+    FROM sel a
+    <include refid="SelectJoin"/>
+    WHERE a.id = #{id}
+  </select>
+
+  <select id="findSelectList" resultType="com.edu.manger.entry.Select">
+    SELECT
+    <include refid="SelectColumns"/>
+    <include refid="listOrCountSql"/>
+  </select>
+
+  <select id="findList" resultType="com.edu.manger.entry.Select">
+    SELECT
+    <include refid="SelectColumns"/>
+    <include refid="listOrCountSql"/>
+  </select>
+
+  <delete id="delete">
+    DELETE  FROM sel WHERE id = #{id}
+  </delete>
+
+  <update id="update">
+    update  sel
+      <set>
+        <if test="name != null">
+          name = #{name},
+        </if>
+        <if test="content != null">
+          content = #{content},
+        </if>
+        <if test="status != null">
+          status = #{status},
+        </if>
+      </set>
+      WHERE  id = #{id}
+  </update>
+
+</mapper>
