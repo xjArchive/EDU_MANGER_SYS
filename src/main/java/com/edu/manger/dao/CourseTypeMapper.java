@@ -16,7 +16,7 @@ import java.util.List;
 public interface CourseTypeMapper {
 
     List<CourseType> findList(CourseType courseType);
-    CourseType get(CourseType courseType);
+    CourseType get(Integer id);
     int delete(Integer id);
     int insert(CourseType courseType);
     //判断类型名称不能重复

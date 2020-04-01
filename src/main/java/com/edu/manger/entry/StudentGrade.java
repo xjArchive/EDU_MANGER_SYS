@@ -26,6 +26,16 @@ public class StudentGrade {
     private String username;
     private String realName;
 
+    private String type;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public Integer getId() {
         return id;
     }

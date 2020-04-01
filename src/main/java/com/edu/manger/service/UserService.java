@@ -33,4 +33,9 @@ public interface UserService {
     public RestResponse saveStudent(User user);
 
     public User getUserById(Integer id);
+
+    public RestResponse getTeacherStus(String  teacherNo,Integer page,Integer limit);
+
+
+    public RestResponse getTeacherStusByCondition(String  teacherNo,Integer page,Integer limit,User user);
 }

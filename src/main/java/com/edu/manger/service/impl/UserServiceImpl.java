@@ -11,6 +11,8 @@ import com.edu.manger.utils.PasswordMd5Utils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Lists;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * ClassName: UserServiceImpl
@@ -44,6 +47,9 @@ public class UserServiceImpl implements UserService {
 
     @Resource
     private CourseArrangeMapper courseArrangeMapper;
+
+    @Resource
+    private DeptMapper deptMapper;
 
 
 
@@ -214,5 +220,123 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         user =  UserMapper.get(id);
         return user;
+    }
+
+    @Override
+    public RestResponse getTeacherStus(String teacherNo,Integer page,Integer limit) {
+
+        //新建一个List用来存储该教师所教学生的信息
+        List<User> userList = Lists.newArrayList();
+        CourseArrange courseArrange = new CourseArrange();
+        courseArrange.setTeacherNo(teacherNo);
+        //根据教师工号，查询该教师所授的班级,将所授的班级用集合存储进来
+       List<CourseArrange> courseArrangeList = courseArrangeMapper.findList(courseArrange);
+       List<String> classNameList = Lists.newArrayList();
+        if (courseArrangeList.size() > 0){
+            courseArrangeList.forEach(tmp -> {
+                classNameList.add(tmp.getClassName());
+            });
+            //对班级名称进行去重操作，保证班级名唯一(jdk新特性去重)
+         List<String> list= classNameList.stream().distinct().collect(Collectors.toList());
+         List<Classs> classIds = Lists.newArrayList();
+         if (!list.isEmpty()){
+             list.forEach(tmp ->{  //遍历班级名称，获取班级id
+                 Classs classs = new Classs();
+                 classs.setClassName(tmp);
+                 Classs cls =  classMapper.get(classs); //获取的班级
+                 classIds.add(cls);
+             });
+         }
+         if (!classIds.isEmpty()){
+             classIds.forEach(tmp ->{
+                 User user = new User();
+                 user.setFlag(Integer.valueOf(Constant.STUDENT_ROLE));
+                 user.setClassId(tmp.getId());
+               List<User> stuList = UserMapper.findTeacherList(user);
+                 userList.addAll(stuList);
+             });
+         }
+            userList.forEach(tmp ->{
+                Classs classs = new Classs();
+                classs.setId(tmp.getClassId());
+                tmp.setClassName(classMapper.get(classs).getClassName());
+                tmp.setCollegeName(deptMapper.get(tmp.getCollegeId()).getDeptName());
+
+            });
+         PageHelper.startPage(page,limit);
+         PageInfo pageInfo  = new PageInfo(userList);
+         RestResponse restResponse = PageUtils.StartPage(pageInfo);
+            return restResponse;
+
+        }
+
+        return RestResponse.noData(null);
+    }
+
+
+    /**
+     * 根据条件搜索学生
+     * @param teacherNo
+     * @param page
+     * @param limit
+     * @param
+     * @return
+     */
+    @Override
+    public RestResponse getTeacherStusByCondition(String teacherNo, Integer page, Integer limit, User us) {
+
+        //新建一个List用来存储该教师所教学生的信息
+        List<User> userList = Lists.newArrayList();
+        CourseArrange courseArrange = new CourseArrange();
+        courseArrange.setTeacherNo(teacherNo);
+        //根据教师工号，查询该教师所授的班级,将所授的班级用集合存储进来
+        List<CourseArrange> courseArrangeList = courseArrangeMapper.findList(courseArrange);
+        List<String> classNameList = Lists.newArrayList();
+        if (courseArrangeList.size() > 0){
+            courseArrangeList.forEach(tmp -> {
+                classNameList.add(tmp.getClassName());
+            });
+            //对班级名称进行去重操作，保证班级名唯一(jdk新特性去重)
+            List<String> list= classNameList.stream().distinct().collect(Collectors.toList());
+            List<Classs> classIds = Lists.newArrayList();
+            if (!list.isEmpty()){
+                list.forEach(tmp ->{  //遍历班级名称，获取班级id
+                    Classs classs = new Classs();
+                    classs.setClassName(tmp);
+                    Classs cls =  classMapper.get(classs); //获取的班级
+                    classIds.add(cls);
+                });
+            }
+            if (!classIds.isEmpty()){
+                classIds.forEach(tmp ->{
+                    User user = new User();
+                    user.setFlag(Integer.valueOf(Constant.STUDENT_ROLE));
+                    user.setClassId(tmp.getId());
+                    if (StringUtils.isNotBlank(us.getUsername())){
+                        user.setUsername(us.getUsername());
+                    }
+                    if (StringUtils.isNotBlank(us.getIdCard())){
+                        user.setIdCard(us.getIdCard());
+                    }
+                    List<User> stuList = UserMapper.findTeacherList(user);
+                    userList.addAll(stuList);
+                });
+            }
+            userList.forEach(tmp ->{
+                Classs classs = new Classs();
+                classs.setId(tmp.getClassId());
+                tmp.setClassName(classMapper.get(classs).getClassName());
+                tmp.setCollegeName(deptMapper.get(tmp.getCollegeId()).getDeptName());
+
+            });
+            PageHelper.startPage(page,limit);
+            PageInfo pageInfo  = new PageInfo(userList);
+            RestResponse restResponse = PageUtils.StartPage(pageInfo);
+            return restResponse;
+
+        }
+
+        return RestResponse.noData(null);
+
     }
 }

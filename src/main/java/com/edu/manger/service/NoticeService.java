@@ -33,4 +33,6 @@ public interface NoticeService {
 
 
     public Notice get(Integer id);
+
+    public RestResponse findRecentNotice();
 }

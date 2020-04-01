@@ -46,4 +46,9 @@ public class CourseTypeServiceImpl implements CourseTypeService {
      List<CourseType> list =  courseTypeMapper.judgeNameExists(courseType);
         return list.size();
     }
+
+    @Override
+    public CourseType get(Integer id) {
+        return  courseTypeMapper.get(id);
+    }
 }

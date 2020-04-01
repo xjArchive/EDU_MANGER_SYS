@@ -58,9 +58,17 @@ public class LoginController {
                 return "admin/admin_index";
             }
             if (subject.hasRole("teacher")){
+                User user = new User();
+                user =  userService.findUserbyName(username);
+                model.addAttribute("user",user);
+                request.getSession().setAttribute("user",user);
                 return "teacher/teacher_index";
             }
             if (subject.hasRole("student")){
+                User user = new User();
+                user =  userService.findUserbyName(username);
+                model.addAttribute("user",user);
+                request.getSession().setAttribute("user",user);
                 return "student/student_index";
             }
         }catch (UnknownAccountException e){

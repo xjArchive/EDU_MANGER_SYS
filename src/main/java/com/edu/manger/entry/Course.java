@@ -31,11 +31,13 @@ public class Course {
 
     private Integer delFlag;
 
+    private Integer type;
+
     private String name;  //课程类型名
 
     private static final long serialVersionUID = 1L;
 
-    public Course(String courseCode, String courseName, String courseType, String startTime, String address, Integer score, Integer courseLong, Date createDate, Date updateDate) {
+    public Course(String courseCode, String courseName, String courseType, String startTime, String address, Integer score, Integer courseLong, Date createDate, Date updateDate,Integer type) {
         this.courseCode = courseCode;
         this.courseName = courseName;
         this.courseType = courseType;
@@ -45,6 +47,7 @@ public class Course {
         this.courseLong = courseLong;
         this.createDate = createDate;
         this.updateDate = updateDate;
+        this.type = type;
     }
 
     public Course() {
@@ -154,5 +157,13 @@ public class Course {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 }

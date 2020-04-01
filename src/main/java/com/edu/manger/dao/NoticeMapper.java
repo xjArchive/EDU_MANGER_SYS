@@ -22,4 +22,6 @@ public interface NoticeMapper {
 
     public Notice get(Integer id);
 
+    public List<Notice> findRecentNotice();
+
 }

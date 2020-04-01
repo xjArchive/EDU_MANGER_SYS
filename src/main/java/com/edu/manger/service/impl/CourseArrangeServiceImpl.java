@@ -49,6 +49,15 @@ public class CourseArrangeServiceImpl implements CourseArrangeService {
     @Override
     public RestResponse save(CourseArrange courseArrange) {
 
+        courseArrange.setTeacherNo(courseArrange.getTeacherNo());
+        courseArrange.setClassName(courseArrange.getClassName());
+        courseArrange.setCourseCode(courseArrange.getCourseCode());
+
+       List<CourseArrange> courseArrangeList =  courseArrangeMapper.findList(courseArrange);
+        if (!courseArrangeList.isEmpty()){
+            return RestResponse.error(RestCode.COURSE_ARRANGE_NOTSUIT);
+        }
+
         if (courseArrange != null){
           int flag =  courseArrangeMapper.insert(courseArrange);
           if (flag > 0){
@@ -94,5 +103,10 @@ public class CourseArrangeServiceImpl implements CourseArrangeService {
         }else{
             return RestResponse.error(RestCode.DELETE_FAIL);
         }
+    }
+
+    @Override
+    public CourseArrange get(Integer id) {
+        return   courseArrangeMapper.get(id);
     }
 }

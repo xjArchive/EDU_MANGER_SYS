@@ -13,4 +13,5 @@ public interface CourseArrangeMapper {
     public List<CourseArrange> findList(CourseArrange courseArrange);
     public int update(CourseArrange courseArrange);
     public int delete(Integer id);
+    public  CourseArrange get(Integer id);
 }

@@ -93,4 +93,105 @@ public class ResponseView {
         return "admin/admin_studentGrade";
     }
 
+    /* ==================教师模块视图==================================*/
+
+    @RequestMapping(value = {"/getStudentListView",""},method = RequestMethod.GET)
+    @ApiOperation("点击学生管理，返回页面，获取所教班级的基本学生信息，只能查看不能编辑")
+    public String getStudentListView(){
+        return "teacher/teacher_getMyStudentList";
+    }
+
+
+    @RequestMapping(value = {"/MyCourseView",""},method = RequestMethod.GET)
+    @ApiOperation("获取我的授课安排")
+    public String MyCourseView(){
+        return "teacher/teacher_getMyCourse";
+    }
+
+
+    @RequestMapping(value = {"/getMyStudentGrade",""},method = RequestMethod.GET)
+    @ApiOperation("获取我的授课安排")
+    public String getMyStudentGrade(){
+        return "teacher/teacher_myStudentGrade";
+    }
+
+
+    /* ==================学生模块视图==================================*/
+
+    @RequestMapping(value = {"/StudentCourse",""},method = RequestMethod.GET)
+    @ApiOperation("获取我的课表")
+    public String StudentCourse(){
+        return "student/student_studentCourse";
+    }
+
+    @RequestMapping(value = {"/selectCourse",""},method = RequestMethod.GET)
+    @ApiOperation("网上选课")
+    public String selectCourse(){
+        return "student/student_selectCourse";
+    }
+
+    @RequestMapping(value = {"/getMyGrade",""},method = RequestMethod.GET)
+    @ApiOperation("获取我的成绩")
+    public String getMyGrade(){
+        return "student/student_studentGrade";
+    }
+
+    @ApiOperation("提交事务")
+    @RequestMapping(value = {"/commitTran",""},method = RequestMethod.GET)
+    public String commitTran(){
+        return "student/student_commitTran";
+    }
+
+    @ApiOperation("我的事务")
+    @RequestMapping(value = {"/myTran",""},method = RequestMethod.GET)
+    public String myTran(){
+        return "student/student_tranList";
+    }
+
+
+    @ApiOperation("老师提交事务")
+    @RequestMapping(value = {"/t_commitTran",""},method = RequestMethod.GET)
+    public String t_commitTran(){
+        return "teacher/teacher_commitTran";
+    }
+
+    @ApiOperation("教师事务")
+    @RequestMapping(value = {"/t_tranList",""},method = RequestMethod.GET)
+    public String t_tranList(){
+        return "teacher/teacher_tranList";
+    }
+
+    @ApiOperation("获取所有事务")
+    @RequestMapping(value = {"/getAllTran",""},method = RequestMethod.GET)
+    public String getAllTran(){
+        return "admin/admin_AllTran";
+    }
+
+    @ApiOperation("学生选题列表")
+    @RequestMapping(value = {"/selectList",""},method = RequestMethod.GET)
+    public String selectList(){
+        return "admin/admin_selectList";
+    }
+
+    @ApiOperation("毕设选题")
+    @RequestMapping(value = {"/select",""},method = RequestMethod.GET)
+    public String select(){
+        return "admin/admin_select";
+    }
+
+
+
+    @ApiOperation("学生毕设选题")
+    @RequestMapping(value = {"/selectView",""},method = RequestMethod.GET)
+    public String selectView(){
+        return "student/student_selectList";
+    }
+
+    @ApiOperation("通知公告页面")
+    @RequestMapping(value = {"/noticeView",""},method = RequestMethod.GET)
+    public String noticeView(){
+        return "message";
+    }
+
+
 }

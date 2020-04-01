@@ -99,4 +99,13 @@ public class NoticeServiceImpl implements NoticeService {
     public Notice get(Integer id) {
         return  noticeMapper.get(id);
     }
+
+    @Override
+    public RestResponse findRecentNotice() {
+        List<Notice>   noticeList = noticeMapper.findRecentNotice();
+        if (noticeList.size() > 0){
+            return RestResponse.success(noticeList);
+        }
+        return RestResponse.noData(null);
+    }
 }

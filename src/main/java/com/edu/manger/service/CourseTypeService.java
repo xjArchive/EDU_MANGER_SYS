@@ -17,4 +17,5 @@ public interface CourseTypeService {
     RestResponse save(CourseType courseType);
     List<CourseType> findList(CourseType courseType);
     int judgeNameExists(CourseType courseType);
+    CourseType get(Integer id);
 }

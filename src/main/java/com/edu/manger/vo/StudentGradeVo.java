@@ -22,6 +22,11 @@ public class StudentGradeVo implements Serializable {
     private String collegeName;
     private String marks;
     private String flag;  //是否打分
+    private String className;
+
+    private String courseType;
+    private String pass;
+    private String teacherName;
 
     public String getId() {
         return id;
@@ -86,6 +91,40 @@ public class StudentGradeVo implements Serializable {
 
     public void setFlag(String flag) {
         this.flag = flag;
+    }
+
+
+    public String getCourseType() {
+        return courseType;
+    }
+
+    public void setCourseType(String courseType) {
+        this.courseType = courseType;
+    }
+
+    public String getPass() {
+        return pass;
+    }
+
+
+    public String getTeacherName() {
+        return teacherName;
+    }
+
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
     }
 
     public StudentGradeVo() {

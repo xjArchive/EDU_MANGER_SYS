@@ -3,6 +3,7 @@ package com.edu.manger.controller;
 import com.edu.manger.constants.Constant;
 import com.edu.manger.constants.RestCode;
 import com.edu.manger.constants.RestResponse;
+import com.edu.manger.dto.ModifyPwdDto;
 import com.edu.manger.entry.User;
 import com.edu.manger.service.UserService;
 import com.edu.manger.utils.PasswordMd5Utils;
@@ -104,6 +105,43 @@ public class ModifyPasswordController {
       return RestResponse.error(RestCode.UNKNOW_ERROR);
 
     }
+
+
+
+
+    @RequestMapping(value = "/modifyPwdInLogin",method = RequestMethod.POST)
+    @ApiOperation("登录首页重置密码")
+    public RestResponse<Object> modifyPwd(@ApiParam("dto对象") ModifyPwdDto modifyPwdDto){
+
+         User user =   userService.findUserbyName(modifyPwdDto.getUsername());
+         if (user == null){
+            return RestResponse.error(RestCode.USER_NOT_EXISTED);
+         }
+        //检查手机号码是否是已绑定的
+         if(!user.getMobile().equals(modifyPwdDto.getMobile())){
+            return RestResponse.error(RestCode.MOBILE_ERROR);
+         }
+         //检查身份证是否正确
+        if (!user.getIdCard().equals(modifyPwdDto.getIdCard())){
+          return   RestResponse.error(RestCode.IDCARD_NOT_BIND);
+        }
+        //获取验证码
+        String verCode = (String) redisTemplate.opsForValue().get("code_" + modifyPwdDto.getMobile());
+        if (StringUtils.isBlank(verCode)){
+            return  RestResponse.error(RestCode.VERICODE_ISEMPTY);
+        }
+        if (!modifyPwdDto.getCode().equals(verCode)){
+            return  RestResponse.error(RestCode.VERICODE_ERROR);
+        }
+
+        User u = new User();
+        u.setId(user.getId());
+        u.setPassword(PasswordMd5Utils.passwordByMd5(modifyPwdDto.getPassword()));
+
+       return userService.update(u);
+
+    }
+
 
 
 }

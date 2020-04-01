@@ -43,6 +43,10 @@ public class User{
 
     private Integer flag;
 
+    private String className;
+
+    private String collegeName;
+
     private String IP;
 
     private static final long serialVersionUID = 1L;
@@ -192,6 +196,22 @@ public class User{
 
     public void setIP(String IP) {
         this.IP = IP;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
+    }
+
+    public String getCollegeName() {
+        return collegeName;
+    }
+
+    public void setCollegeName(String collegeName) {
+        this.collegeName = collegeName;
     }
 
     @Override

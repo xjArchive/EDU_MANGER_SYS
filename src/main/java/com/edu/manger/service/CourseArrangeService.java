@@ -30,4 +30,5 @@ public interface CourseArrangeService {
     public List<CourseArrange> findPage(CourseArrange courseArrange);
 
     public RestResponse deleteCourseArrangeById(Integer id);
+    public CourseArrange get(Integer id);
 }

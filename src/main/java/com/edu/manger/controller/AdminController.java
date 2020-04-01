@@ -68,6 +68,15 @@ public class AdminController {
     @Autowired
     private StudentGradeService studentGradeService;
 
+    @Autowired
+    private TranService tranService;
+
+    @Autowired
+    private SelectService selectService;
+
+    @Autowired
+    private SelectListService selectListService;
+
     /**
      * 由前端传入条件，获取教师列表
      * @return
@@ -600,7 +609,8 @@ public class AdminController {
     @RequestMapping(value = "/AddCourse",method = RequestMethod.POST)
     public RestResponse AddCourse(@ApiParam(name = "courseName",value = "课程名称",required = true) String courseName,
                                   @ApiParam(name = "courseCode",value = "课程流水号",required = true) String courseCode,
-                                  @ApiParam(name = "courseType",value = "课程类型",required = true) String courseType,
+                                  @ApiParam(name = "coursecourseTypeType",value = "课程类型",required = true) String courseType,
+                                  @ApiParam(name = "type",value = "是否参与选课",required = true) String type,
                                   @ApiParam(name = "startTime",value = "课程时间",required = true) String startTime,
                                   @ApiParam(name = "address",value = "上课地点",required = true) String address,
                                   @ApiParam(name = "score",value = "课程学分",required = true) String score,
@@ -615,7 +625,7 @@ public class AdminController {
              }
              Course ce = new Course(course.getCourseCode(),courseName,courseType,startTime,address,Integer.valueOf(score),
                      Integer.valueOf(courseLong),
-                     new Date(),new Date());
+                     new Date(),new Date(),Integer.valueOf(type));
 
            RestResponse restResponse =  courseService.save(ce);
             return  restResponse;
@@ -758,10 +768,10 @@ public class AdminController {
      */
     @ApiOperation("获取所有已排课列表")
     @RequestMapping(value = "/getCourseArrangeList",method = RequestMethod.GET)
-    public RestResponse getCourseArrangeList(){
+    public RestResponse getCourseArrangeList(@ApiParam(value = "页码",required = true)@RequestParam Integer page, @ApiParam(value = "每页数据条数",required = true)@RequestParam Integer limit){
         CourseArrange courseArrange = new CourseArrange();
-        List<CourseArrange>  arrangeList =  courseArrangeService.findPage(courseArrange);
-        return  RestResponse.success(arrangeList);
+        RestResponse response = courseArrangeService.findCourseArrangeList(courseArrange,page,limit);
+        return  response;
     }
 
 
@@ -773,11 +783,14 @@ public class AdminController {
      */
     @ApiOperation("添加课程安排")
     @RequestMapping(value = "/AddCourseArrange",method = RequestMethod.POST)
-    public RestResponse AddCourseArrange(@ApiParam(name = "courseAddress",value = "上课地点",required = true) String courseAddress,
+    public RestResponse AddCourseArrange(
+                                  @ApiParam(name = "courseAddress",value = "上课地点",required = true) String courseAddress,
                                   @ApiParam(name = "courseCode",value = "课程流水号",required = true) String courseCode,
                                   @ApiParam(name = "username",value = "授课老师",required = true) String username,
                                   @ApiParam(name = "className",value = "授课班级",required = true) String className,
-                                  @ApiParam(name = "deptName",value = "所属院系",required = true) String collegeName) {
+                                  @ApiParam(name = "deptName",value = "所属院系",required = true) String collegeName,
+                                  @ApiParam(name = "week",value = "星期",required = true) String week,
+                                  @ApiParam(name = "jieci",value = "节次",required = true) String jieci) {
 
         CourseArrange courseArrange = new CourseArrange();
         courseArrange.setClassName(className);
@@ -785,6 +798,8 @@ public class AdminController {
         courseArrange.setTeacherNo(username);
         courseArrange.setCourseCode(courseCode);
         courseArrange.setCollegeName(collegeName);
+        courseArrange.setWeek(Integer.valueOf(week));
+        courseArrange.setJieci(Integer.valueOf(jieci));
         //根据课程代码获取，课程名称
 
         Course course = new Course();
@@ -872,6 +887,26 @@ public class AdminController {
 
         Notice notice = new Notice();
        return noticeService.findNoticeList(notice,page,limit);
+
+    }
+
+    @ApiOperation("获取通知详情")
+    @RequestMapping(value = "/getNoticeDetail",method = RequestMethod.GET)
+    public RestResponse getNoticeDetail(String id){
+
+        if (StringUtils.isNotBlank(id)){
+            Notice notice =  noticeService.get(Integer.valueOf(id));
+            return RestResponse.success(notice);
+        }
+            return RestResponse.noData(null);
+    }
+
+
+    @ApiOperation("获取最新5条通知列表")
+    @RequestMapping(value = "/getRecentNotice",method = RequestMethod.GET)
+    public RestResponse getRecentNotice(){
+        Notice notice = new Notice();
+        return noticeService.findRecentNotice();
 
     }
 
@@ -1036,6 +1071,204 @@ public class AdminController {
         return  restResponse;
 
     }
+
+
+    @ApiOperation("获取所有事务")
+    @RequestMapping(value = "/getAllTran",method = RequestMethod.GET)
+    public RestResponse getAllTran(@ApiParam(value = "页码",required = true)@RequestParam String page, @ApiParam(value = "每页数据条数",required = true)@RequestParam String limit){
+
+        //使用分页插件
+        PageHelper.startPage(Integer.parseInt(page) , Integer.parseInt(limit));
+        //根据相关条件搜索
+        List<Tran> tranList = tranService.findList(new Tran());
+        //根据查询的数据列表，得到分页的结果对象
+        RestResponse restResponse = null;
+        List<Tran> list = Lists.newArrayList();
+        if (tranList.size() > 0){
+            PageInfo<Tran> pageList = new PageInfo<Tran>(tranList);
+            list  = pageList.getList();
+            long count = pageList.getTotal();
+            restResponse =   RestResponse.success(list,count);
+        }else {
+            restResponse =  RestResponse.noData(null);
+        }
+        return  restResponse;
+
+    }
+
+
+
+    @ApiOperation("同意申请")
+    @RequestMapping(value = "/passTran",method = RequestMethod.POST)
+    public RestResponse passTran(@ApiParam(name = "id",required = true,value = "id") String id){
+
+        Tran tran = new Tran();
+        tran.setId(Integer.valueOf(id));
+        tran.setStatus("1");
+        return   tranService.update(tran);
+
+    }
+
+    @ApiOperation("拒绝申请")
+    @RequestMapping(value = "/rejectTran",method = RequestMethod.POST)
+    public RestResponse rejectTran(@ApiParam(name = "id",required = true,value = "id") String id){
+
+        Tran tran = new Tran();
+        tran.setId(Integer.valueOf(id));
+        tran.setStatus("2");
+        return   tranService.update(tran);
+
+    }
+
+
+    @ApiOperation("删除事务")
+    @RequestMapping(value = "/deleteTran",method = RequestMethod.POST)
+    public RestResponse deleteTran(@ApiParam(name = "id",required = true,value = "id") String id){
+        return  tranService.delete(Integer.valueOf(id));
+
+    }
+
+
+
+
+    @ApiOperation("获取课题列表")
+    @RequestMapping(value = "/getAllSelect",method = RequestMethod.GET)
+    public RestResponse getAllSelect(@ApiParam(value = "页码",required = true)@RequestParam Integer page, @ApiParam(value = "每页数据条数",required = true)@RequestParam Integer limit){
+
+        Select select = new Select();
+        return selectService.findSelectList(select,page,limit);
+
+    }
+
+
+
+    @ApiOperation("发布课题")
+    @RequestMapping(value = "/AddSelect",method = RequestMethod.POST)
+    public RestResponse AddSelect(@ApiParam(name = "name",value = "名称",required = true) String name,
+                                  @ApiParam(name = "content",value = "内容",required = true) String content) {
+
+        Select select = new Select();
+        select.setName(name);
+
+     List<Select>  list =  selectService.findList(select);
+     if (!list.isEmpty()){
+         return RestResponse.error(RestCode.SELECT_EXISETED);
+    }
+        Select select1 = new Select();
+        select1.setName(name);
+        select1.setContent(content);
+
+        return  selectService.save(select1);
+
+    }
+
+
+
+    /**
+     * 接受前端传入的id,，此处我是用物理删除
+     * @return
+     */
+    @ApiOperation("删除课题")
+    @RequestMapping(value = "/delSelectById",method = RequestMethod.POST)
+    public RestResponse delSelectById(@ApiParam(name = "id",required = true,value = "id") String id){
+        return  selectService.deleteSelectById(Integer.valueOf(id));
+    }
+
+    @ApiOperation("编辑课题")
+    @RequestMapping(value = "/UpdateSelect",method = RequestMethod.POST)
+    public RestResponse UpdateSelect(@ApiParam(name = "id",required = true,value = "通知表id") String id,
+                                     @ApiParam(name = "name",required = true,value = "名称") String name,
+                                     @ApiParam(name = "content",required = true,value = "内容") String content){
+
+        Select select = new Select();
+        select.setName(name);
+        select.setContent(content);
+        select.setId(Integer.valueOf(id));
+
+        return   selectService.update(select);
+
+    }
+
+
+
+    @ApiOperation("根据课题查询")
+    @RequestMapping(value = "/getSelectByCondition",method = RequestMethod.GET)
+    public RestResponse getSelectByCondition(@ApiParam(value = "页码",required = true)@RequestParam String page, @ApiParam(value = "每页数据条数",required = true)@RequestParam String limit,@ApiParam(value = "前端传入的搜索对象") Select select){
+
+        //使用分页插件
+        PageHelper.startPage(Integer.parseInt(page) , Integer.parseInt(limit));
+        //根据相关条件搜索
+        List<Select> noticeList = selectService.findPage(select);
+        //根据查询的数据列表，得到分页的结果对象
+        RestResponse restResponse = null;
+        List<Select> list = Lists.newArrayList();
+        if (noticeList.size() > 0){
+            PageInfo<Select> pageList = new PageInfo<Select>(noticeList);
+            list  = pageList.getList();
+            long count = pageList.getTotal();
+            restResponse =   RestResponse.success(list,count);
+        }else {
+            restResponse =  RestResponse.noData(null);
+        }
+        return  restResponse;
+
+    }
+
+
+
+
+    @ApiOperation("获取所有选题列表")
+    @RequestMapping(value = "/getAllSelectList",method = RequestMethod.GET)
+    public RestResponse getAllSelectList(@ApiParam(value = "页码",required = true)@RequestParam Integer page, @ApiParam(value = "每页数据条数",required = true)@RequestParam Integer limit){
+
+
+        List<SelectList> list = selectListService.findList(new SelectList());
+        if (list.size() > 0){
+            PageHelper.startPage(page,limit);
+            PageInfo pageInfo = new PageInfo(list);
+            RestResponse restResponse = PageUtils.StartPage(pageInfo);
+            return restResponse;
+        }
+        return  RestResponse.noData(null);
+
+    }
+
+
+    @ApiOperation("根据条件检索")
+    @RequestMapping(value = "/getSelectListByCondition",method = RequestMethod.GET)
+    public RestResponse getSelectListByCondition(@ApiParam(value = "页码",required = true)@RequestParam String page, @ApiParam(value = "每页数据条数",required = true)@RequestParam String limit,@ApiParam(value = "前端传入的搜索对象") SelectList selectList){
+
+        //使用分页插件
+        PageHelper.startPage(Integer.parseInt(page) , Integer.parseInt(limit));
+        //根据相关条件搜索
+        List<SelectList> noticeList = selectListService.findList(selectList);
+        //根据查询的数据列表，得到分页的结果对象
+        RestResponse restResponse = null;
+        List<SelectList> list = Lists.newArrayList();
+        if (noticeList.size() > 0){
+            PageInfo<SelectList> pageList = new PageInfo<SelectList>(noticeList);
+            list  = pageList.getList();
+            long count = pageList.getTotal();
+            restResponse =   RestResponse.success(list,count);
+        }else {
+            restResponse =  RestResponse.noData(null);
+        }
+        return  restResponse;
+
+    }
+
+
+    /**
+     * 接受前端传入的id,，此处我是用物理删除
+     * @return
+     */
+    @ApiOperation("删除学生选的课题")
+    @RequestMapping(value = "/delSelectListById",method = RequestMethod.POST)
+    public RestResponse delSelectListById(@ApiParam(name = "id",required = true,value = "id") String id){
+        return  selectListService.deleteById(Integer.valueOf(id));
+    }
+
+
 
 
 

@@ -27,6 +27,18 @@ public class CourseArrange {
 
     private String className;
 
+    private String startTime;
+
+    private String courseLong;
+
+    private String teacherName;
+
+    private Integer week;
+    private Integer jieci;
+    private Integer type;
+
+    private String score; //学分
+
     public CourseArrange(Integer id, String courseCode, String courseName, String courseAddress, String collegeName, String teacherNo) {
         this.id = id;
         this.courseCode = courseCode;
@@ -93,5 +105,61 @@ public class CourseArrange {
 
     public void setClassName(String className) {
         this.className = className;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getCourseLong() {
+        return courseLong;
+    }
+
+    public void setCourseLong(String courseLong) {
+        this.courseLong = courseLong;
+    }
+
+    public String getScore() {
+        return score;
+    }
+
+    public void setScore(String score) {
+        this.score = score;
+    }
+
+    public String getTeacherName() {
+        return teacherName;
+    }
+
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
+    }
+
+    public Integer getWeek() {
+        return week;
+    }
+
+    public void setWeek(Integer week) {
+        this.week = week;
+    }
+
+    public Integer getJieci() {
+        return jieci;
+    }
+
+    public void setJieci(Integer jieci) {
+        this.jieci = jieci;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 }
