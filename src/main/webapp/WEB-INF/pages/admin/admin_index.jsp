@@ -44,7 +44,7 @@
             <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
 
                 <li class="layui-nav-item" lay-unselect>
-                    <a lay-href="app/message/index.html" layadmin-event="message" lay-text="消息中心">
+                    <a lay-href="View/noticeView" layadmin-event="message" lay-text="消息中心">
                         <i class="layui-icon layui-icon-notice"></i>
 
                         <!-- 如果有新消息，则显示小圆点 -->
@@ -172,9 +172,6 @@
                             <dd>
                                 <a lay-href="View/studentGradeView">学生成绩管理</a>
                             </dd>
-                            <dd>
-                                <a lay-href="View/teacherGradeView">教师成绩管理</a>
-                            </dd>
                         </dl>
                     </li>
 
@@ -185,7 +182,7 @@
                         </a>
                         <dl class="layui-nav-child">
                             <dd>
-                                <a lay-href="View/studentGradeView">教师事务管理</a>
+                                <a lay-href="View/getAllTran">事务列表</a>
                             </dd>
                         </dl>
                     </li>
@@ -198,7 +195,10 @@
                         </a>
                         <dl class="layui-nav-child">
                             <dd>
-                                <a lay-href="View/graduatedView">毕业管理</a>
+                                <a lay-href="View/selectList">学生选题列表</a>
+                            </dd>
+                            <dd>
+                                <a lay-href="View/select">毕业选题</a>
                             </dd>
                         </dl>
                     </li>

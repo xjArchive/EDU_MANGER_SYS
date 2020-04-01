@@ -119,6 +119,16 @@
             </div>
 
             <div class="layui-form-item">
+                <label class="layui-form-label layui-required">是否参与选课：</label>
+                <div class="layui-input-block">
+                    <select name="type" id="type"  lay-verify="required">
+                        <option value="0" >专业必修</option>
+                        <option value="1" >全院任选</option>
+                    </select>
+                </div>
+            </div>
+
+           <%-- <div class="layui-form-item">
                 <label class="layui-form-label layui-required">上课时间：</label>
                 <div class="layui-input-block">
                     <input type="text" id="startTime" name="startTime" class="layui-input" lay-verify="required" placeholder="第x周到第x周，周一">
@@ -130,7 +140,7 @@
                 <div class="layui-input-block">
                     <input type="text" id="address" name="address" class="layui-input" lay-verify="required" placeholder="教室号，如科301">
                 </div>
-            </div>
+            </div>--%>
 
             <div class="layui-form-item">
                 <label class="layui-form-label layui-required">课程学分：</label>
@@ -179,15 +189,19 @@
                 statusCode: 200
             }
             ,cols: [[
-                {type: 'checkbox', fixed: 'left'}
-                ,{field:'id', title:'ID', fixed: 'left', sort: true}
                 ,{field:'courseName', title:'课程名称',}
                 ,{field:'courseCode', title:'课程代码'}
                 ,{field:'name', title:'课程类型'}
                 ,{field:'startTime', title:'上课时间'}
                 ,{field:'address', title:'上课地点'}
-                ,{field:'score', title:'学分'}
-                ,{field:'courseLong', title:'课时'}
+                ,{field:'type', title:'是否是选课',templet : function(d) {
+                        if (d.type == 0)
+                            return "<div class='not'>否</div>";
+                        else
+                            return "<div class='is'>是</div>";
+                    }}
+                ,{field:'score', title:'学分', sort: true}
+                ,{field:'courseLong', title:'课时',sort: true}
                 ,{field:'createDate', title:'创建日期', unresize: true, sort: true}
                 ,{field:'updateDate', title:'更新日期', unresize: true, sort: true}
                 ,{fixed: 'right', title:'操作', toolbar: '#bar', width:150}
@@ -251,8 +265,8 @@
                         $('#id').val(data.id)
                         $('#courseno').val(data.courseName)
                         $('#courseco').val(data.courseCode)
-                        $('#startTime').val(data.startTime)
-                        $('#address').val(data.address)
+                       // $('#startTime').val(data.startTime)
+                       // $('#address').val(data.address)
                         $('#score').val(data.score)
                         $('#courseLong').val(data.courseLong)
                         $('#coursetp').val(data.courseType)

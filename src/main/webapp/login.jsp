@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <html lang="en">
 	<head>
-		<title>登录页面 - 统一开发平台 - UI库</title>
+		<title>登录页面 - 高校教务管理系统</title>
 		<link href="./css/bootstrap.min.css" type="text/css" rel="stylesheet"/>
 		<link href="./css/font-awesome.min.css" type="text/css" rel="stylesheet"/>
 		<link href="./css/ace-fonts.css" type="text/css" rel="stylesheet" />
 		<link href="./css/ace.min.css" id="main-ace-style" type="text/css" rel="stylesheet"/>
+        <link href="layui/css/layui.css">
 		<!--[if lte IE 9]>
 			<link  href="./css/ace-part2.min.css" type="text/css" rel="stylesheet" />
 		<![endif]-->
@@ -17,6 +18,28 @@
 		<script src="./js/html5shiv.min.js"></script>
 		<script src="./js/respond.min.js" type="text/javascript"></script>
 		<![endif]-->
+
+        <style>
+            .blur-login{
+                background-image: url("css/images/back.jpg");
+                background-repeat: no-repeat;
+                background-size: cover;
+            }
+            .code{
+                width: 400px;
+                height: 400px;
+                background-repeat: no-repeat;
+                background-image: url("css/images/code.png");
+                margin-left: 80px;
+            }
+            .tip{
+                margin-left: 30px;
+            }
+            .tip span h2{
+                color: red;
+            }
+        </style>
+
 	</head>
 	<body class="login-layout blur-login">
 		<div class="main-container">
@@ -81,24 +104,27 @@
 										</div><!-- /.widget-main -->
 
 										<div class="toolbar clearfix">
-											<div>
+											<div col-sm-10 col-sm-offset-8>
 												<a href="#" data-target="#forgot-box" class="forgot-password-link">
 													<i class="ace-icon fa fa-arrow-left"></i>
 													忘记密码
 												</a>
 											</div>
 
-											<div>
+											<%--<div>
 												<a href="#" data-target="#signup-box" class="user-signup-link">
 													用户注册
 													<i class="ace-icon fa fa-arrow-right"></i>
 												</a>
-											</div>
+											</div>--%>
 										</div>
 									</div><!-- /.widget-body -->
 								</div><!-- /.login-box -->
 
-								<div id="forgot-box" class="forgot-box widget-box no-border">
+
+
+
+                                <div id="forgot-box" class="forgot-box widget-box no-border">
 									<div class="widget-body">
 										<div class="widget-main">
 											<h4 class="header red lighter bigger">
@@ -108,22 +134,52 @@
 
 											<div class="space-6"></div>
 											<p>
-												输入您注册时候的email，用以接收密码重置信息
+												输入您已绑定的手机号码，用以接收短信验证码
 											</p>
 
-											<form>
+											<form  class="layui-form" action="modifyPwdInLogin" method="post">
 												<fieldset>
-													<label class="block clearfix">
+													<label class="block clearfix">手机号码
 														<span class="block input-icon input-icon-right">
-															<input type="email" class="form-control" placeholder="Email" />
-															<i class="ace-icon fa fa-envelope"></i>
+															<input class="form-control" placeholder="手机号码" id="mobile" name="mobile" lay-verify = "pho" />
+															<i class="ace-icon fa fa-phone"></i>
+														</span>
+                                                       <button type="button" class="width-35 pull-right btn btn-sm btn-danger" id="send">
+                                                      发送验证码
+                                                        </button>
+													</label>
+													<label class="block clearfix">登录账号
+														<span class="block input-icon input-icon-right">
+															<input  class="form-control" placeholder="登录账号" id="loginName" name="username" lay-verify = "required" />
+															<i class="ace-icon fa fa-language"></i>
+														</span>
+													</label>
+
+                                                    <label class="block clearfix">新密码
+                                                        <span class="block input-icon input-icon-right">
+															<input type="password"  class="form-control" placeholder="新密码" id="password" name="password" lay-verify = "required" />
+															<i class="ace-icon fa fa-language"></i>
+														</span>
+                                                    </label>
+
+													<label class="block clearfix">身份证
+														<span class="block input-icon input-icon-right">
+															<input  class="form-control" placeholder="身份证" id="idCard"  name="idCard" lay-verify = "required|identity" />
+															<i class="ace-icon fa fa-credit-card"></i>
+														</span>
+													</label>
+													<label class="block clearfix">验证码
+														<span class="block input-icon input-icon-right">
+															<input class="form-control" placeholder="请填入你所收到的手机验证码" id="veriCode" name="code" lay-verify = "required"/>
+															<i class="ace-icon fa fa-code"></i>
 														</span>
 													</label>
 
 													<div class="clearfix">
-														<button type="button" class="width-35 pull-right btn btn-sm btn-danger">
+
+														<button type="button" class="width-35 pull-right btn btn-sm btn-danger" lay-submit lay-filter="addSubmit" id="sub">
 															<i class="ace-icon fa fa-lightbulb-o"></i>
-															<span class="bigger-110">发送!</span>
+															<span class="bigger-110" id="sendValue">提交</span>
 														</button>
 													</div>
 												</fieldset>
@@ -215,11 +271,18 @@
 									</div><!-- /.widget-body -->
 								</div><!-- /.signup-box -->
 							</div><!-- /.position-relative -->
+                            <%--  此处用于存放连接二维码--%>
+                            <div class="tip">
+                                <span><h2>扫描以下二维码，手机访问</h2></span>
+                            </div>
+                            <div class="code">
 
+                            </div>
 						</div>
 					</div><!-- /.col -->
 				</div><!-- /.row -->
 			</div><!-- /.main-content -->
+
 		</div><!-- /.main-container -->
 
 		<!-- basic scripts -->
@@ -241,6 +304,15 @@
 		</script>
 
 		<!-- inline scripts related to this page -->
+
+
+        <script type="text/javascript" src="layui/layui.js"></script>
+        <script type="text/javascript">
+            layui.use(['layer'], function(){
+                var layer = layui.layer;
+
+            });
+        </script>
 		<script type="text/javascript">
 			jQuery(function($) {
 			 $(document).on('click', '.toolbar a[data-target]', function(e) {
@@ -253,7 +325,74 @@
 
 			// 给文本框获取焦点
 			$("#userName").focus();
-			/*var user = $("#userName").val();*/
+
+            var wait=60; //初始化发送频率
+            $("#send").click(function () {
+                var mobile = $("#mobile").val()
+                if (!new RegExp("^1[345789]\\d{9}$").test(mobile)){
+                    layer.msg("请填写正确格式的手机号码")
+                    return false;
+                }
+                $.post("/sendCode",{mobile: mobile},function (res) {
+                    if (res.code == 200){
+                        layer.msg("发送成功")
+                    }
+                });
+                setTime(this)
+            });
+
+            function setTime(obj) {
+                console.log(obj)
+                if (wait == 0) {
+                    obj.removeAttribute("disabled");
+                    obj.innerText="获取验证码";
+                    //obj.value="获取验证码";
+                    wait = 60;
+                } else {
+                    obj.setAttribute("disabled", true);
+                    obj.innerText="重新发送(" + wait +")";
+                    //obj.value="重新发送(" + wait + ")";
+                    wait--;
+                    setTimeout(function() {
+                        setTime(obj)
+                    },1000)}
+            }
+
+
+
+			$("#sub").click(function () {
+
+			    //获取表单值
+                var mobile = $("#mobile").val();
+                var username = $("#loginName").val();
+                var idCard = $("#idCard").val();
+                var code = $("#veriCode").val();
+                var password = $("#password").val();
+
+                if (mobile == '' ||username == '' ||idCard == '' ||code == '' ||password == ''){
+                    layer.msg("请先补充相关信息")
+                    return false;
+                }
+                var data = {
+                    "mobile":mobile,
+                     "username":username,
+                    "idCard":idCard,
+                    "code":code,
+                    "password":password
+                }
+                $.post("/modifyPwdInLogin",data,function (res) {
+                    if (res.code == 200 ){
+                        layer.msg("重置成功，请返回登录")
+                    }else{
+                        layer.msg(res.msg)
+                    }
+                })
+
+
+            });
+
+
+
 
 		</script>
 	</body>

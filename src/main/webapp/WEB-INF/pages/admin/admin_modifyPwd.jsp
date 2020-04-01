@@ -37,7 +37,7 @@
                 <form class="layui-form" id="" method="post" action="">
                     <input type="hidden" id = "id" name="id" value="${user.id}" class="layui-input">
                     <div class="layui-form-item">
-                        <label class="layui-form-label layui-required">新密码：</label>
+                        <label class="layui-form-label">新密码：</label>
                         <div class="layui-input-block">
                             <input type="password" id="newPassword" name="newPassword" class="layui-input" lay-verify = "required">
                         </div>

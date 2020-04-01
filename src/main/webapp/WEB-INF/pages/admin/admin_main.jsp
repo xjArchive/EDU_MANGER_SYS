@@ -62,7 +62,7 @@
             elem: '#lun'
             ,width: '100%' //设置容器宽度
             ,arrow: 'always' //始终显示箭头
-            ,height: '690px'
+            ,height: '700px'
             //,anim: 'updown' //切换动画方式
         });
     });

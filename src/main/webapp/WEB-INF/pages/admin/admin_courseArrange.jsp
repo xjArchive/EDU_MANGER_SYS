@@ -85,6 +85,30 @@
             </div>
 
             <div class="layui-form-item">
+                <label class="layui-form-label layui-required">星期：</label>
+                <div class="layui-input-block">
+                    <select name="week">
+                        <option value="1">星期一</option>
+                        <option value="2">星期二</option>
+                        <option value="3">星期三</option>
+                        <option value="4">星期四</option>
+                        <option value="5">星期五</option>
+                        <option value="6">星期六</option>
+                        <option value="7">星期日</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label layui-required">节次(请选择1-5直接的数)：</label>
+                <div class="layui-input-block">
+                    <input type="text" id="jieci" name="jieci" class="layui-input" lay-verify="required|number|jieci" placeholder="上午两大节，下午两大节，晚上一大节">
+                </div>
+            </div>
+
+
+
+            <div class="layui-form-item">
                 <label class="layui-form-label layui-required">课程名称：</label>
                 <div class="layui-input-block">
                     <select name="courseCode" id="course" lay-filter="selectCourse" class="selectCourse" lay-verify="required">
@@ -94,7 +118,8 @@
             <div class="layui-form-item">
                 <label class="layui-form-label layui-required">开课班级：</label>
                 <div class="layui-input-block">
-                    <select name="className" id="className" lay-filter="selectClass" class="selectClass" lay-verify="required">
+                    <select name="className" id="className" lay-filter="selectClass" class="selectClass">
+                        <option value="">全院任选</option>
                     </select>
                 </div>
             </div>
@@ -137,6 +162,15 @@
         var form = layui.jquery;
         var element = layui.element;
         var form = layui.form;
+
+        form.verify({
+            jieci: [
+                /[1-5]/ //正则表达式
+                ,'课程节次输入有误，请检查再操作' //提示信息
+            ]
+        });
+
+
         var tableObj = table.render({
             elem: '#courseArrangeTable'
             ,url: '/admin/getCourseArrangeList'
@@ -155,6 +189,12 @@
                 ,{field:'id', title:'ID', fixed: 'left', sort: true}
                 ,{field:'courseName', title:'课程名称',}
                 ,{field:'courseCode', title:'课程代码'}
+                ,{field:'type', title:'是否参加选课',templet : function(d) {
+                        if (d.type == 0)
+                            return "<div class='not'>否</div>";
+                        else
+                            return "<div class='is'>是</div>";
+                    }}
                 ,{field:'collegeName', title:'院系名称'}
                 ,{field:'courseAddress', title:'上课地点'}
                 ,{field:'teacherNo', title:'教师工号'}
@@ -258,6 +298,9 @@
 
                         //提交数据
                         form.on('submit(addSubmit)',function (formData) {
+
+
+
                             console.log(formData)
                             $.post("/admin/UpdateCollegeArrange",formData.field,function (res) {
                                 console.log("响应"+res.msg)
