@@ -23,8 +23,8 @@
         </commentGenerator>
 
         <!-- jdbc连接 -->
-        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://47.96.160.137:3306/edu" userId="root"
-                        password="xjArchive1697084799#" />
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:/edu" userId="root"
+                        password=" />
         <!-- 类型转换 -->
         <javaTypeResolver>
             <!-- 是否使用bigDecimal， false可自动转化以下类型（Long, Integer, Short, etc.） -->
